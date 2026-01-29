@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChevronRight, Menu, X, Instagram, Mail, Youtube, Facebook } from 'lucide-react';
+import { ChevronRight, Menu, X, Instagram, Mail, Youtube, Facebook, Zap, Target, Users } from 'lucide-react';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -78,6 +78,46 @@ export default function Home() {
           background: #facc15;
           animation: none;
           box-shadow: 0 0 0 8px rgba(250, 204, 21, 0.2);
+        }
+        
+        /* Seamless Infinite Carousel */
+        @keyframes scroll-seamless {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .logos-carousel {
+          display: flex;
+          gap: 2rem;
+          animation: scroll-seamless 60s linear infinite;
+          width: fit-content;
+        }
+        .logos-carousel:hover {
+          animation-play-state: paused;
+        }
+        .logo-item {
+          flex-shrink-0;
+          width: 100px;
+          height: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #f9fafb;
+          border-radius: 12px;
+          border: 1px solid #e5e7eb;
+          transition: all 0.3s ease;
+        }
+        .logo-item:hover {
+          border-color: #a488f4;
+          box-shadow: 0 4px 12px rgba(164, 136, 244, 0.15);
+        }
+        .logo-item img {
+          max-width: 80px;
+          max-height: 80px;
+          object-fit: contain;
         }
       `}</style>
       <div 
@@ -229,7 +269,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What Makes US Different Section */}
+      {/* What Makes US Different Section - Redesigned */}
       <section id="features" className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="mb-16">
@@ -241,24 +281,45 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="space-y-12">
-            <div className="border-l-4 border-[#a488f4] pl-8 py-4">
-              <h3 className="text-2xl font-bold text-[#1e3a8a] mb-4">Built on Real Experience</h3>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                At Dear Future Luminary, everything is built on real experience—not theory. We break down complex application processes, show you how to build a strong profile, and guide you step by step through the same paths that helped our community access top global programs.
-              </p>
+          <div className="grid md:grid-cols-1 gap-8">
+            {/* Card 1 - Built on Real Experience */}
+            <div className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-8 hover:border-[#a488f4]/50 hover:shadow-lg transition-all duration-300">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#a488f4]/10 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-300"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="p-3 bg-gradient-to-br from-[#a488f4] to-[#8a6ef1] rounded-lg">
+                    <Zap size={24} className="text-white" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-[#1e3a8a] pt-1">Built on Real Experience</h3>
+                </div>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  At Dear Future Luminary, everything is built on real experience—not theory. We break down complex application processes, show you how to build a strong profile, and guide you step by step through the same paths that helped our community access top global programs.
+                </p>
+              </div>
             </div>
 
-            <div className="border-l-4 border-[#facc15] pl-8 py-4">
-              <h3 className="text-2xl font-bold text-[#1e3a8a] mb-4">No Random Links</h3>
-              <p className="text-lg text-gray-700 leading-relaxed">
-                Every opportunity is vetted, explained, and connected to a clear path. We don't overwhelm you with lists. We guide you through structured roadmaps that show you exactly what to do, when to do it, and why it matters.
-              </p>
+            {/* Card 2 - No Random Links */}
+            <div className="group relative overflow-hidden rounded-2xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-8 hover:border-[#facc15]/50 hover:shadow-lg transition-all duration-300">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#facc15]/10 to-transparent rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-300"></div>
+              
+              <div className="relative z-10">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="p-3 bg-gradient-to-br from-[#facc15] to-[#f59e0b] rounded-lg">
+                    <Target size={24} className="text-[#1e3a8a]" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-[#1e3a8a] pt-1">Curated, Not Random</h3>
+                </div>
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  You won't find random links here. You'll find curated opportunities, practical roadmaps, and honest guidance designed to help you apply with confidence, clarity, and strategy—not guesswork.
+                </p>
+              </div>
             </div>
 
-            <div className="border-l-4 border-[#a488f4] pl-8 py-4">
-              <h3 className="text-2xl font-bold text-[#1e3a8a] mb-4">Six Core Features</h3>
-              <div className="grid md:grid-cols-3 gap-6 mt-6">
+            {/* Six Core Features Grid */}
+            <div className="mt-8">
+              <h3 className="text-2xl font-bold text-[#1e3a8a] mb-8">Six Core Features</h3>
+              <div className="grid md:grid-cols-3 gap-6">
                 {[
                   { icon: 'Radar.svg', title: 'Opportunity Radar', desc: 'Curated hub of fully funded programs' },
                   { icon: 'road map.svg', title: 'Structured Roadmaps', desc: 'Beginner-friendly guides for any path' },
@@ -267,12 +328,10 @@ export default function Home() {
                   { icon: 'Teams.svg', title: 'Community Support', desc: 'Connect with peers and mentors' },
                   { icon: 'Cap.svg', title: 'AI-Powered Guidance', desc: 'Personalized recommendations' },
                 ].map((feature, index) => (
-                  <div key={index} className="flex gap-4">
-                    <img src={`/images/${feature.icon}`} alt={feature.title} className="w-8 h-8 flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold text-[#1e3a8a]">{feature.title}</p>
-                      <p className="text-sm text-gray-600">{feature.desc}</p>
-                    </div>
+                  <div key={index} className="group p-6 rounded-xl border border-gray-200 bg-white hover:border-[#a488f4] hover:shadow-md transition-all duration-300">
+                    <img src={`/images/${feature.icon}`} alt={feature.title} className="w-10 h-10 mb-4 group-hover:scale-110 transition-transform duration-300" />
+                    <p className="font-semibold text-[#1e3a8a] mb-2">{feature.title}</p>
+                    <p className="text-sm text-gray-600">{feature.desc}</p>
                   </div>
                 ))}
               </div>
@@ -281,7 +340,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Logos Carousel Section */}
+      {/* Logos Carousel Section - Seamless Loop */}
       <section id="programs" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-[#a488f4]/5 to-[#facc15]/5">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
@@ -296,78 +355,54 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Animated Carousel */}
+          {/* Seamless Infinite Carousel */}
           <div className="relative overflow-hidden bg-white rounded-2xl border border-gray-100 py-8">
-            <style>{`
-              @keyframes scroll-left {
-                0% {
-                  transform: translateX(0);
-                }
-                100% {
-                  transform: translateX(-100%);
-                }
-              }
-              .logos-carousel {
-                display: flex;
-                gap: 2rem;
-                animation: scroll-left 40s linear infinite;
-                width: fit-content;
-              }
-              .logos-carousel:hover {
-                animation-play-state: paused;
-              }
-              .logo-item {
-                flex-shrink-0;
-                width: 100px;
-                height: 100px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: #f9fafb;
-                border-radius: 12px;
-                border: 1px solid #e5e7eb;
-              }
-              .logo-item img {
-                max-width: 80px;
-                max-height: 80px;
-                object-fit: contain;
-              }
-            `}</style>
-            <div className="logos-carousel">
-              {[...programs, ...programs].map((program, index) => (
-                <div key={index} className="logo-item">
-                  <img
-                    src={`/images/${program.logo}`}
-                    alt={program.name}
-                    title={program.name}
-                  />
-                </div>
-              ))}
+            <div className="relative overflow-hidden">
+              <div className="logos-carousel">
+                {[...programs, ...programs, ...programs].map((program, index) => (
+                  <div key={index} className="logo-item">
+                    <img
+                      src={`/images/${program.logo}`}
+                      alt={program.name}
+                      title={program.name}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Mission Section */}
-      <section id="about" className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-5xl md:text-6xl font-bold text-[#1e3a8a] mb-8">
-            Our Mission
-          </h2>
-          
-          <div className="space-y-8 text-lg text-gray-700 leading-relaxed">
-            <p className="text-3xl font-bold text-[#a488f4]">
-              Talent is everywhere. Access is not.
-            </p>
+      {/* Our Mission Section - Redesigned */}
+      <section id="about" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a] relative overflow-hidden">
+        {/* Background Decorative Elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#a488f4]/20 to-transparent rounded-full -mr-48 -mt-48"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#facc15]/10 to-transparent rounded-full -ml-48 -mb-48"></div>
 
-            <p>
-              Dear Future Luminary exists to close that gap. We support high school and early college students—especially those from underrepresented communities—by giving them clear guidance, trusted resources, and a supportive community to help them access global opportunities.
-            </p>
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="space-y-8">
+            {/* Main Statement */}
+            <div>
+              <h2 className="text-5xl md:text-6xl font-bold text-white mb-8">
+                Our Mission
+              </h2>
+              
+              <p className="text-4xl md:text-5xl font-bold text-[#facc15] mb-12 leading-tight">
+                Talent is everywhere.<br />
+                Access is not.
+              </p>
 
-            <div className="bg-gradient-to-r from-[#a488f4]/10 to-[#facc15]/10 p-8 rounded-2xl border border-[#a488f4]/20">
-              <p className="text-xl font-semibold text-[#1e3a8a] mb-4">Our mission is simple:</p>
-              <p className="text-lg">
-                To turn <span className="font-bold">ambition into direction</span>, <span className="font-bold">confusion into clarity</span>, and <span className="font-bold">potential into real outcomes</span>—so being a luminary becomes possible for everyone, not just a privileged few.
+              <p className="text-xl text-white/90 leading-relaxed mb-8">
+                Dear Future Luminary exists to close that gap. We support high school and early college students—especially those from underrepresented communities—by giving them clear guidance, trusted resources, and a supportive community to help them access global opportunities.
+              </p>
+            </div>
+
+            {/* Mission Statement Box */}
+            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 md:p-12">
+              <p className="text-lg font-semibold text-[#facc15] mb-6">Our mission is simple:</p>
+              <p className="text-2xl md:text-3xl font-bold text-white leading-relaxed">
+                To turn <span className="text-[#facc15]">ambition into direction</span>, <span className="text-[#facc15]">confusion into clarity</span>, and <span className="text-[#facc15]">potential into real outcomes</span>—so being a luminary becomes possible for everyone, not just a privileged few.
               </p>
             </div>
           </div>
