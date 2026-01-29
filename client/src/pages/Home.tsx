@@ -85,15 +85,16 @@ export default function Home() {
         style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
       />
 
-      {/* Sticky Navbar */}
+      {/* Sticky Navbar with Rounded Corners */}
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           isScrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100'
-            : 'bg-white/80 backdrop-blur-md'
+            ? 'top-4 left-4 right-4 bg-white/95 backdrop-blur-md shadow-lg border border-gray-100 rounded-2xl'
+            : 'bg-white/80 backdrop-blur-md rounded-none'
         }`}
+        style={isScrolled ? { maxWidth: 'calc(100% - 32px)', margin: '0 auto', left: '16px', right: '16px' } : {}}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className={`${isScrolled ? 'px-6' : 'px-4 sm:px-6 lg:px-8'} max-w-7xl mx-auto`}>
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center gap-3">
@@ -103,7 +104,7 @@ export default function Home() {
                 className="h-10 w-10"
               />
               <span className="font-bold text-lg text-[#1e3a8a] hidden sm:inline">
-                DFL
+                Dear Future Luminary
               </span>
             </div>
 
@@ -168,8 +169,8 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-[#f2f3f5] to-white">
+      {/* Hero Section with Enhanced Gradient */}
+      <section className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-white via-[#f8f6ff] to-[#f0e6ff]">
         <div className="max-w-7xl mx-auto">
           <div className="space-y-8 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#a488f4]/10 rounded-full border border-[#a488f4]/20">
@@ -251,7 +252,7 @@ export default function Home() {
             <div className="border-l-4 border-[#facc15] pl-8 py-4">
               <h3 className="text-2xl font-bold text-[#1e3a8a] mb-4">No Random Links</h3>
               <p className="text-lg text-gray-700 leading-relaxed">
-                You won't find random links here. You'll find curated opportunities, practical roadmaps, and honest guidance designed to help you apply with confidence, clarity, and strategy—not guesswork.
+                Every opportunity is vetted, explained, and connected to a clear path. We don't overwhelm you with lists. We guide you through structured roadmaps that show you exactly what to do, when to do it, and why it matters.
               </p>
             </div>
 
@@ -379,7 +380,7 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8 mb-12">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <img src="/images/dear.future.luminary.logo.svg.svg" alt="DFL" className="w-8 h-8" />
+                <img src="/images/dear.future.luminary.logo.svg.svg" alt="Dear Future Luminary" className="w-8 h-8" />
                 <span className="font-bold">Dear Future Luminary</span>
               </div>
               <p className="text-white/70 text-sm leading-relaxed">
