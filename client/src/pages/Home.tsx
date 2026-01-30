@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { ChevronRight, Menu, X, Instagram, Mail, Youtube, Facebook, Zap, Target, Users, ArrowRight, X as XIcon } from 'lucide-react';
+import { ChevronRight, Menu, X, Instagram, Mail, Youtube, Facebook, ArrowRight, AlertCircle } from 'lucide-react';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const [showComingSoonModal, setShowComingSoonModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,9 +50,57 @@ export default function Home() {
     { name: 'Dear Future Luminary', logo: 'dear.future.luminary.logo.svg.svg' },
   ];
 
+  const coreFeatures = [
+    {
+      title: 'Opportunity Radar',
+      description: 'A carefully curated collection of real global opportunities—scholarships, summer programs, exchanges, and initiatives—organized clearly so students can understand what fits them and why.',
+      icon: '📡'
+    },
+    {
+      title: 'Clear Roadmaps',
+      description: 'Structured, beginner-friendly paths that help students move from uncertainty to action. Each roadmap breaks big goals into clear, manageable steps, showing where to start and how to progress.',
+      icon: '🗺️'
+    },
+    {
+      title: 'Profile Building',
+      description: 'Practical guidance that helps students present themselves honestly and confidently. From CVs to personal statements, the focus is on clarity, authenticity, and understanding what opportunities are truly looking for.',
+      icon: '✨'
+    },
+    {
+      title: 'Personal Growth',
+      description: 'A dedicated space for inner development—confidence, mindset, self-awareness, and leadership—because strong applications start with a strong sense of self.',
+      icon: '🌱'
+    },
+    {
+      title: 'Shared Learning & Support',
+      description: 'Students don\'t grow alone. Dear Future Luminary brings together shared experiences, peer learning, and honest stories so no one feels isolated while figuring things out.',
+      icon: '🤝'
+    },
+    {
+      title: 'Guided Clarity',
+      description: 'No shortcuts, no exaggerated promises. Just carefully organized knowledge, clear explanations, and intentional guidance that helps students think, choose, and move forward on their own.',
+      icon: '🎯'
+    }
+  ];
+
+  const quickLinks = [
+    { label: 'Home', href: '#' },
+    { label: 'Roadmaps', href: '#' },
+    { label: 'Scholarship Hub', href: '#' },
+    { label: 'Profile Building', href: '#' },
+    { label: 'Our Story & Vision', href: '#' },
+    { label: 'Community Space', href: '#' },
+    { label: 'Blog', href: '#' }
+  ];
+
+  const handleQuickLinkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setShowComingSoonModal(true);
+  };
+
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
-      {/* Custom Cursor */}
+      {/* Custom Styles */}
       <style>{`
         * {
           cursor: none;
@@ -75,13 +124,7 @@ export default function Home() {
           animation: pulse-cursor 1.5s infinite;
           transform: translate(-50%, -50%);
         }
-        .custom-cursor.hover {
-          background: #facc15;
-          animation: none;
-          box-shadow: 0 0 0 8px rgba(250, 204, 21, 0.2);
-        }
         
-        /* Seamless Infinite Carousel */
         @keyframes scroll-seamless {
           0% {
             transform: translateX(0);
@@ -121,7 +164,6 @@ export default function Home() {
           object-fit: contain;
         }
 
-        /* Modal Animation */
         @keyframes slideIn {
           from {
             opacity: 0;
@@ -135,18 +177,77 @@ export default function Home() {
         .modal-content {
           animation: slideIn 0.3s ease-out;
         }
+
+        /* Mesh Gradient Background */
+        .mesh-gradient {
+          background: linear-gradient(135deg, #f8f6ff 0%, #f0e6ff 25%, #fff5e6 50%, #f8f6ff 75%, #f0e6ff 100%);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .mesh-gradient::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          right: -50%;
+          width: 200%;
+          height: 200%;
+          background: radial-gradient(circle at 20% 50%, rgba(164, 136, 244, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(250, 204, 21, 0.05) 0%, transparent 50%);
+          animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(50px, 50px); }
+        }
+
+        /* Feature Card Hover Effect */
+        .feature-card {
+          transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .feature-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+          transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+          left: 100%;
+        }
+
+        .feature-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 20px 40px rgba(164, 136, 244, 0.15);
+          border-color: #a488f4;
+        }
+
+        /* Smooth Scroll */
+        html {
+          scroll-behavior: smooth;
+        }
       `}</style>
+
+      {/* Custom Cursor */}
       <div 
         className="custom-cursor"
         style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
       />
 
-      {/* Sticky Navbar with Rounded Corners */}
+      {/* Sticky Navbar */}
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-300 ${
           isScrolled
-            ? 'top-4 left-4 right-4 bg-white/95 backdrop-blur-md shadow-lg border border-gray-100 rounded-2xl'
-            : 'bg-white/80 backdrop-blur-md rounded-none'
+            ? 'top-4 left-4 right-4 bg-white/95 backdrop-blur-xl shadow-xl border border-gray-100 rounded-2xl'
+            : 'bg-white/80 backdrop-blur-xl rounded-none border-b border-gray-100/50'
         }`}
         style={isScrolled ? { maxWidth: 'calc(100% - 32px)', margin: '0 auto', left: '16px', right: '16px' } : {}}
       >
@@ -225,15 +326,8 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Enhanced Hero Section */}
-      <section className="pt-32 pb-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#a488f4]/20 to-transparent rounded-full blur-3xl -mr-48 -mt-48"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#facc15]/10 to-transparent rounded-full blur-3xl -ml-48 -mb-48"></div>
-          <div className="absolute inset-0 bg-gradient-to-br from-white via-[#f8f6ff] to-[#f0e6ff]"></div>
-        </div>
-
+      {/* Hero Section */}
+      <section className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 mesh-gradient relative overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="space-y-12 max-w-4xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#a488f4]/10 rounded-full border border-[#a488f4]/20 backdrop-blur-sm">
@@ -249,16 +343,18 @@ export default function Home() {
                 </span>
               </h1>
               <p className="text-2xl md:text-3xl font-semibold text-[#a488f4] leading-tight">
-                For the Future that's Watching.
+                For the future that's watching.
               </p>
             </div>
 
             <div className="space-y-6 text-lg md:text-xl text-gray-700 leading-relaxed max-w-2xl">
-              <p>
-                <span className="font-bold text-[#1e3a8a]">Discover Your Inner Light.</span> Build Your Conscious Path. Share Your Impact.
-              </p>
-              <p className="text-gray-600">
-                We're here to help you find your spark, build your path, and make your mark on the world. You're not alone on this journey.
+              <div className="space-y-3">
+                <p className="font-semibold text-[#1e3a8a]">Discover your direction.</p>
+                <p className="font-semibold text-[#1e3a8a]">Build your path with clarity.</p>
+                <p className="font-semibold text-[#1e3a8a]">Access real global opportunities.</p>
+              </div>
+              <p className="text-gray-600 pt-4">
+                We're here to help you find where you belong, understand your next step, and move forward with confidence. You're not alone on this journey.
               </p>
             </div>
 
@@ -277,26 +373,27 @@ export default function Home() {
               </button>
             </div>
 
+            {/* Impact Snapshot */}
             <div className="grid grid-cols-3 gap-8 pt-12 border-t border-gray-200">
               <div className="space-y-2">
                 <p className="text-4xl font-black text-[#a488f4]">500+</p>
-                <p className="text-gray-600 font-medium">Opportunities Curated</p>
+                <p className="text-gray-600 font-medium">Opportunities carefully curated</p>
               </div>
               <div className="space-y-2">
                 <p className="text-4xl font-black text-[#a488f4]">100+</p>
-                <p className="text-gray-600 font-medium">Students Reached</p>
+                <p className="text-gray-600 font-medium">Students supported and guided</p>
               </div>
               <div className="space-y-2">
                 <p className="text-4xl font-black text-[#a488f4]">5+</p>
-                <p className="text-gray-600 font-medium">Countries Covered</p>
+                <p className="text-gray-600 font-medium">Countries reached so far</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* What Makes US Different Section - Redesigned */}
-      <section id="features" className="py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-gray-50">
+      {/* What Makes US Different Section */}
+      <section id="features" className="py-32 px-4 sm:px-6 lg:px-8 bg-white relative">
         <div className="max-w-7xl mx-auto">
           <div className="mb-24">
             <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
@@ -308,56 +405,45 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
+          <div className="grid md:grid-cols-2 gap-8 mb-20">
             {/* Card 1 */}
-            <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white p-10 hover:border-[#a488f4]/50 hover:shadow-2xl transition-all duration-300">
+            <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-10 hover:border-[#a488f4]/50 hover:shadow-2xl transition-all duration-300">
               <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#a488f4]/10 to-transparent rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-300"></div>
               <div className="relative z-10">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="p-4 bg-gradient-to-br from-[#a488f4] to-[#8a6ef1] rounded-xl">
-                    <Zap size={28} className="text-white" />
-                  </div>
+                  <div className="text-5xl">🔬</div>
                   <h3 className="text-3xl font-bold text-[#1e3a8a] pt-2">Built on Real Experience</h3>
                 </div>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  At Dear Future Luminary, everything is built on real experience—not theory. We break down complex application processes, show you how to build a strong profile, and guide you step by step through the same paths that helped our community access top global programs.
+                  Everything at Dear Future Luminary is shaped by real journeys, not theory. We break down complex application processes, explain what truly matters, and guide students through paths that members of our community have already walked.
                 </p>
               </div>
             </div>
 
             {/* Card 2 */}
-            <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white p-10 hover:border-[#facc15]/50 hover:shadow-2xl transition-all duration-300">
+            <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-10 hover:border-[#facc15]/50 hover:shadow-2xl transition-all duration-300">
               <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#facc15]/10 to-transparent rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-300"></div>
               <div className="relative z-10">
                 <div className="flex items-start gap-4 mb-6">
-                  <div className="p-4 bg-gradient-to-br from-[#facc15] to-[#f59e0b] rounded-xl">
-                    <Target size={28} className="text-[#1e3a8a]" />
-                  </div>
+                  <div className="text-5xl">✨</div>
                   <h3 className="text-3xl font-bold text-[#1e3a8a] pt-2">Curated, Not Random</h3>
                 </div>
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  You won't find random links here. You'll find curated opportunities, practical roadmaps, and honest guidance designed to help you apply with confidence, clarity, and strategy—not guesswork.
+                  You won't find scattered links or overwhelming lists. Every opportunity, roadmap, and resource is selected with intention—so students can apply with clarity, confidence, and strategy, not guesswork.
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Six Core Features Grid */}
-          <div className="mt-16">
-            <h3 className="text-4xl font-bold text-[#1e3a8a] mb-12">Six Core Features</h3>
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                { icon: 'Radar.svg', title: 'Opportunity Radar', desc: 'Curated hub of fully funded programs' },
-                { icon: 'road map.svg', title: 'Structured Roadmaps', desc: 'Beginner-friendly guides for any path' },
-                { icon: 'Personal Profile.svg', title: 'Profile Building', desc: 'Craft compelling applications' },
-                { icon: 'Upgrade.svg', title: 'Personal Growth', desc: 'Develop confidence and mindset' },
-                { icon: 'Teams.svg', title: 'Community Support', desc: 'Connect with peers and mentors' },
-                { icon: 'Cap.svg', title: 'AI-Powered Guidance', desc: 'Personalized recommendations' },
-              ].map((feature, index) => (
-                <div key={index} className="group p-8 rounded-2xl border border-gray-200 bg-white hover:border-[#a488f4] hover:shadow-lg transition-all duration-300">
-                  <img src={`/images/${feature.icon}`} alt={feature.title} className="w-12 h-12 mb-6 group-hover:scale-125 transition-transform duration-300" />
-                  <p className="font-bold text-[#1e3a8a] mb-3 text-lg">{feature.title}</p>
-                  <p className="text-gray-600 leading-relaxed">{feature.desc}</p>
+          {/* Core Features Grid */}
+          <div className="mt-20">
+            <h3 className="text-4xl font-bold text-[#1e3a8a] mb-12">Core Features</h3>
+            <div className="grid md:grid-cols-3 gap-6">
+              {coreFeatures.map((feature, index) => (
+                <div key={index} className="feature-card p-8 rounded-2xl border border-gray-200 bg-white hover:border-[#a488f4]">
+                  <div className="text-5xl mb-6">{feature.icon}</div>
+                  <h4 className="font-bold text-[#1e3a8a] mb-4 text-lg">{feature.title}</h4>
+                  <p className="text-gray-600 leading-relaxed text-sm">{feature.description}</p>
                 </div>
               ))}
             </div>
@@ -365,8 +451,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Programs Section - Redesigned */}
-      <section id="programs" className="py-32 px-4 sm:px-6 lg:px-8 bg-white">
+      {/* Programs Section */}
+      <section id="programs" className="py-32 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
@@ -374,15 +460,15 @@ export default function Home() {
               <span className="text-[#a488f4]">Proud Of</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6 leading-relaxed">
-              Our founder and community members have been accepted into these prestigious programs. We use their experiences to guide you.
+              Our founder and community members have been accepted into these programs. Their real experiences shape how we guide others.
             </p>
             <p className="text-base text-gray-500 italic">
-              Logos shown represent real acceptance experiences. Dear Future Luminary is not officially affiliated with these organizations.
+              Logos shown represent real acceptance journeys. Dear Future Luminary is not officially affiliated with these organizations.
             </p>
           </div>
 
           {/* Seamless Infinite Carousel */}
-          <div className="relative overflow-hidden bg-gradient-to-r from-white via-gray-50 to-white rounded-3xl border border-gray-200 py-12">
+          <div className="relative overflow-hidden bg-white rounded-3xl border border-gray-200 py-12">
             <div className="relative overflow-hidden">
               <div className="logos-carousel">
                 {[...programs, ...programs, ...programs].map((program, index) => (
@@ -400,9 +486,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Our Mission Section - Redesigned */}
+      {/* Our Mission Section */}
       <section id="about" className="py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a] relative overflow-hidden">
-        {/* Background Decorative Elements */}
+        {/* Decorative Elements */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#a488f4]/20 to-transparent rounded-full -mr-48 -mt-48"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#facc15]/10 to-transparent rounded-full -ml-48 -mb-48"></div>
 
@@ -419,7 +505,7 @@ export default function Home() {
               </p>
 
               <p className="text-2xl text-white/90 leading-relaxed mb-12">
-                Dear Future Luminary exists to close that gap. We support high school and early college students—especially those from underrepresented communities—by giving them clear guidance, trusted resources, and a supportive community to help them access global opportunities.
+                Dear Future Luminary exists to close that gap. We support high school and early college students—especially those from underrepresented communities—by providing clear guidance, trusted resources, and a supportive environment that helps them access global opportunities.
               </p>
             </div>
 
@@ -450,18 +536,25 @@ export default function Home() {
             <div>
               <h4 className="font-bold mb-6 text-[#facc15] text-lg">Quick Links</h4>
               <ul className="space-y-3 text-white/70">
-                <li><a href="#" className="hover:text-white transition-colors">Home</a></li>
-                <li><a href="#features">Roadmaps</a></li>
-                <li><a href="#programs">Scholarship Hub</a></li>
-                <li><a href="#features">Profile Building</a></li>
+                {quickLinks.map((link, index) => (
+                  <li key={index}>
+                    <a 
+                      href={link.href} 
+                      onClick={handleQuickLinkClick}
+                      className="hover:text-white transition-colors cursor-pointer"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
             <div>
               <h4 className="font-bold mb-6 text-[#facc15] text-lg">About</h4>
               <ul className="space-y-3 text-white/70">
                 <li><a href="#about" className="hover:text-white transition-colors">Our Story & Vision</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Community Space</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" onClick={handleQuickLinkClick} className="hover:text-white transition-colors cursor-pointer">Community Space</a></li>
+                <li><a href="#" onClick={handleQuickLinkClick} className="hover:text-white transition-colors cursor-pointer">Blog</a></li>
               </ul>
             </div>
             <div>
@@ -509,18 +602,16 @@ export default function Home() {
       {showJoinModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <div className="modal-content bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-            {/* Modal Header */}
             <div className="sticky top-0 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] p-8 flex items-center justify-between">
               <h2 className="text-3xl font-black text-white">Welcome to Dear Future Luminary!</h2>
               <button 
                 onClick={() => setShowJoinModal(false)}
                 className="text-white hover:bg-white/20 rounded-full p-2 transition-colors"
               >
-                <XIcon size={28} />
+                <X size={28} />
               </button>
             </div>
 
-            {/* Modal Content */}
             <div className="p-8 md:p-12 space-y-8">
               <div className="space-y-4">
                 <p className="text-lg text-gray-700 leading-relaxed">
@@ -564,6 +655,37 @@ export default function Home() {
                   <ArrowRight size={20} />
                 </a>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Coming Soon Modal */}
+      {showComingSoonModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
+          <div className="modal-content bg-white rounded-3xl max-w-md w-full shadow-2xl">
+            <div className="bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] p-8 flex items-center justify-between">
+              <h2 className="text-2xl font-black text-white">Oopsyy!!</h2>
+              <button 
+                onClick={() => setShowComingSoonModal(false)}
+                className="text-white hover:bg-white/20 rounded-full p-2 transition-colors"
+              >
+                <X size={28} />
+              </button>
+            </div>
+
+            <div className="p-8 space-y-6 text-center">
+              <AlertCircle size={48} className="mx-auto text-[#facc15]" />
+              <div className="space-y-3">
+                <p className="text-lg font-bold text-[#1e3a8a]">This feature is not available right now...</p>
+                <p className="text-gray-600">BUT don't worry, we're coming ASAP!</p>
+              </div>
+              <button 
+                onClick={() => setShowComingSoonModal(false)}
+                className="w-full px-6 py-3 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] text-white rounded-full font-bold hover:shadow-lg transition-all duration-300"
+              >
+                Got it!
+              </button>
             </div>
           </div>
         </div>
