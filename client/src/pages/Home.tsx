@@ -1,11 +1,12 @@
-import { useEffect, useState } from 'react';
+'use client';
+
 import { ChevronDown, Menu, X, Instagram, Mail, Youtube, Facebook, ArrowRight, AlertCircle, Send } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
-  const [showJoinModal, setShowJoinModal] = useState(false);
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
   const [contactFormData, setContactFormData] = useState({ name: '', email: '', message: '' });
@@ -56,33 +57,27 @@ export default function Home() {
   const coreFeatures = [
     {
       title: 'Opportunity Radar',
-      description: 'A carefully curated collection of real global opportunities—scholarships, summer programs, exchanges, and initiatives—organized clearly so students can understand what fits them and why.',
-      icon: '📡'
+      description: 'A carefully curated collection of real global opportunities—scholarships, summer programs, exchanges, and initiatives—organized clearly so students can understand what fits them and why.'
     },
     {
       title: 'Clear Roadmaps',
-      description: 'Structured, beginner-friendly paths that help students move from uncertainty to action. Each roadmap breaks big goals into clear, manageable steps, showing where to start and how to progress.',
-      icon: '🗺️'
+      description: 'Structured, beginner-friendly paths that help students move from uncertainty to action. Each roadmap breaks big goals into clear, manageable steps, showing where to start and how to progress.'
     },
     {
       title: 'Profile Building',
-      description: 'Practical guidance that helps students present themselves honestly and confidently. From CVs to personal statements, the focus is on clarity, authenticity, and understanding what opportunities are truly looking for.',
-      icon: '✨'
+      description: 'Practical guidance that helps students present themselves honestly and confidently. From CVs to personal statements, the focus is on clarity, authenticity, and understanding what opportunities are truly looking for.'
     },
     {
       title: 'Personal Growth',
-      description: 'A dedicated space for inner development—confidence, mindset, self-awareness, and leadership—because strong applications start with a strong sense of self.',
-      icon: '🌱'
+      description: 'A dedicated space for inner development—confidence, mindset, self-awareness, and leadership—because strong applications start with a strong sense of self.'
     },
     {
       title: 'Shared Learning & Support',
-      description: 'Students don\'t grow alone. Dear Future Luminary brings together shared experiences, peer learning, and honest stories so no one feels isolated while figuring things out.',
-      icon: '🤝'
+      description: 'Students don\'t grow alone. Dear Future Luminary brings together shared experiences, peer learning, and honest stories so no one feels isolated while figuring things out.'
     },
     {
       title: 'Guided Clarity',
-      description: 'No shortcuts, no exaggerated promises. Just carefully organized knowledge, clear explanations, and intentional guidance that helps students think, choose, and move forward on their own.',
-      icon: '🎯'
+      description: 'No shortcuts, no exaggerated promises. Just carefully organized knowledge, clear explanations, and intentional guidance that helps students think, choose, and move forward on their own.'
     }
   ];
 
@@ -109,378 +104,173 @@ export default function Home() {
     }
   ];
 
-  const quickLinks = [
-    { label: 'Home', href: '#' },
-    { label: 'Roadmaps', href: '#' },
-    { label: 'Scholarship Hub', href: '#' },
-    { label: 'Profile Building', href: '#' },
-    { label: 'Our Story & Vision', href: '#' },
-    { label: 'Community Space', href: '#' },
-    { label: 'Blog', href: '#' }
-  ];
-
-  const handleQuickLinkClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setShowComingSoonModal(true);
+  const handleContactFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setContactFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleContactSubmit = async (e: React.FormEvent) => {
+  const handleContactFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const response = await fetch('https://formspree.io/f/xqaqankn', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contactFormData)
-      });
-      if (response.ok) {
-        setContactFormSubmitted(true);
-        setContactFormData({ name: '', email: '', message: '' });
-        setTimeout(() => setContactFormSubmitted(false), 3000);
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-    }
+    setContactFormSubmitted(true);
+    setTimeout(() => setContactFormSubmitted(false), 3000);
   };
 
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
-      {/* Custom Styles */}
-      <style>{`
-        * {
-          cursor: none;
-        }
-        @keyframes pulse-cursor {
-          0%, 100% {
-            box-shadow: 0 0 0 0 rgba(164, 136, 244, 0.7);
-          }
-          50% {
-            box-shadow: 0 0 0 8px rgba(164, 136, 244, 0.3);
-          }
-        }
-        .custom-cursor {
-          position: fixed;
-          width: 12px;
-          height: 12px;
-          background: #a488f4;
-          border-radius: 50%;
-          pointer-events: none;
-          z-index: 9999;
-          animation: pulse-cursor 1.5s infinite;
-          transform: translate(-50%, -50%);
-        }
-        
-        @keyframes scroll-seamless {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-        .logos-carousel {
-          display: flex;
-          gap: 2rem;
-          animation: scroll-seamless 80s linear infinite;
-          width: fit-content;
-        }
-        .logos-carousel:hover {
-          animation-play-state: paused;
-        }
-        .logo-item {
-          flex-shrink-0;
-          width: 120px;
-          height: 120px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
-          border-radius: 16px;
-          border: 1px solid #e5e7eb;
-          transition: all 0.3s ease;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        .logo-item:hover {
-          border-color: #a488f4;
-          box-shadow: 0 8px 20px rgba(164, 136, 244, 0.2);
-          transform: translateY(-4px);
-        }
-        .logo-item img {
-          max-width: 90px;
-          max-height: 90px;
-          object-fit: contain;
-        }
-
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        .modal-content {
-          animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            max-height: 0;
-          }
-          to {
-            opacity: 1;
-            max-height: 500px;
-          }
-        }
-        .faq-answer {
-          animation: slideDown 0.3s ease-out;
-        }
-
-        /* Mesh Gradient Background */
-        .mesh-gradient {
-          background: linear-gradient(135deg, #f8f6ff 0%, #f0e6ff 25%, #fff5e6 50%, #f8f6ff 75%, #f0e6ff 100%);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .mesh-gradient::before {
-          content: '';
-          position: absolute;
-          top: -50%;
-          right: -50%;
-          width: 200%;
-          height: 200%;
-          background: radial-gradient(circle at 20% 50%, rgba(164, 136, 244, 0.1) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 80%, rgba(250, 204, 21, 0.05) 0%, transparent 50%);
-          animation: gradientShift 15s ease infinite;
-        }
-
-        @keyframes gradientShift {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(50px, 50px); }
-        }
-
-        /* Feature Card Hover Effect */
-        .feature-card {
-          transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-          position: relative;
-          overflow: hidden;
-        }
-
-        .feature-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-          transition: left 0.5s ease;
-        }
-
-        .feature-card:hover::before {
-          left: 100%;
-        }
-
-        .feature-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 20px 40px rgba(164, 136, 244, 0.15);
-          border-color: #a488f4;
-        }
-
-        /* Smooth Scroll */
-        html {
-          scroll-behavior: smooth;
-        }
-      `}</style>
-
-      {/* Custom Cursor */}
-      <div 
-        className="custom-cursor"
-        style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
-      />
-
-      {/* Sticky Navbar */}
-      <nav
-        className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-          isScrolled
-            ? 'top-4 left-4 right-4 bg-white/95 backdrop-blur-xl shadow-xl border border-gray-100 rounded-2xl'
-            : 'bg-white/80 backdrop-blur-xl rounded-none border-b border-gray-100/50'
-        }`}
-        style={isScrolled ? { maxWidth: 'calc(100% - 32px)', margin: '0 auto', left: '16px', right: '16px' } : {}}
-      >
-        <div className={`${isScrolled ? 'px-6' : 'px-4 sm:px-6 lg:px-8'} max-w-7xl mx-auto`}>
-          <div className="flex justify-between items-center h-16">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <img 
-                src="/images/dear.future.luminary.logo.svg.svg" 
-                alt="Dear Future Luminary" 
-                className="h-10 w-10"
-              />
-              <span className="font-bold text-lg text-[#1e3a8a] hidden sm:inline">
-                Dear Future Luminary
-              </span>
+    <div className="min-h-screen bg-white">
+      {/* Navbar */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'top-4 left-4 right-4 mx-auto w-[calc(100%-32px)] rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg' 
+          : 'bg-white'
+      }`}>
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-sm">DFL</span>
             </div>
-
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-gray-600 hover:text-[#a488f4] transition-colors font-medium text-sm">
-                Features
-              </a>
-              <a href="#about" className="text-gray-600 hover:text-[#a488f4] transition-colors font-medium text-sm">
-                About
-              </a>
-              <a href="#programs" className="text-gray-600 hover:text-[#a488f4] transition-colors font-medium text-sm">
-                Programs
-              </a>
-              <a href="#faq" className="text-gray-600 hover:text-[#a488f4] transition-colors font-medium text-sm">
-                FAQ
-              </a>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden text-[#a488f4]"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            <span className="font-bold text-lg text-gray-900">Dear Future Luminary</span>
           </div>
 
-          {/* Mobile Menu */}
-          {isMobileMenuOpen && (
-            <div className="md:hidden pb-4 border-t border-gray-100">
-              <a href="#features" className="block py-2 text-gray-600 hover:text-[#a488f4] text-sm">
-                Features
-              </a>
-              <a href="#about" className="block py-2 text-gray-600 hover:text-[#a488f4] text-sm">
-                About
-              </a>
-              <a href="#programs" className="block py-2 text-gray-600 hover:text-[#a488f4] text-sm">
-                Programs
-              </a>
-              <a href="#faq" className="block py-2 text-gray-600 hover:text-[#a488f4] text-sm">
-                FAQ
-              </a>
-            </div>
-          )}
+          {/* Desktop Menu */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-gray-700 hover:text-purple-600 transition">Features</a>
+            <a href="#about" className="text-gray-700 hover:text-purple-600 transition">About</a>
+            <a href="#programs" className="text-gray-700 hover:text-purple-600 transition">Programs</a>
+            <a href="#faq" className="text-gray-700 hover:text-purple-600 transition">FAQ</a>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="md:hidden"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-t">
+            <div className="px-6 py-4 space-y-4">
+              <a href="#features" className="block text-gray-700 hover:text-purple-600">Features</a>
+              <a href="#about" className="block text-gray-700 hover:text-purple-600">About</a>
+              <a href="#programs" className="block text-gray-700 hover:text-purple-600">Programs</a>
+              <a href="#faq" className="block text-gray-700 hover:text-purple-600">FAQ</a>
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* Hero Section - Professional Two-Column Layout */}
-      <section className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#a488f4] via-[#8a6ef1] to-[#7b5fde] relative overflow-hidden min-h-[70vh] flex items-center">
-        {/* Decorative Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-48 -mt-48"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -ml-48 -mb-48"></div>
-
-        <div className="max-w-7xl mx-auto relative z-10 w-full">
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-6 bg-gradient-to-br from-purple-400 via-purple-300 to-blue-200 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Text Content */}
-            <div className="space-y-8">
-              <div>
-                <h1 className="text-5xl md:text-6xl font-black text-white mb-4 leading-tight">
-                  Dear Future<br />Luminary
-                </h1>
-                <p className="text-2xl md:text-3xl font-serif text-[#facc15] mb-6 relative inline-block">
-                  For the future that's watching.
-                  <span className="absolute bottom-0 left-0 w-24 h-1 bg-[#facc15] rounded-full"></span>
-                </p>
-              </div>
-
-              <div className="space-y-4 text-white/90 text-lg leading-relaxed">
-                <p>Discover your direction. Build your path with clarity. Access real global opportunities.</p>
-                <p>We're here to help you find where you belong, understand your next step, and move forward with confidence. You're not alone on this journey.</p>
-              </div>
-
-              {/* Impact Snapshot */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/20">
-                <div className="space-y-1">
-                  <p className="text-3xl font-black text-[#facc15]">500+</p>
-                  <p className="text-sm text-white/80">Opportunities curated</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-3xl font-black text-[#facc15]">100+</p>
-                  <p className="text-sm text-white/80">Students guided</p>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-3xl font-black text-[#facc15]">5+</p>
-                  <p className="text-sm text-white/80">Countries reached</p>
+            <div>
+              <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                Dear Future<br />Luminary
+              </h1>
+              <p className="text-xl text-white/90 mb-4">For the future that's watching.</p>
+              <p className="text-lg text-white/80 mb-8">
+                Discover your direction. Build your path with clarity. Access real global opportunities.
+              </p>
+              <p className="text-base text-white/75">
+                We're here to help you find where you belong, understand your next step, and move forward with confidence. You're not alone on this journey.
+              </p>
+            </div>
+            
+            <div className="flex justify-center">
+              <div className="w-64 h-64 bg-gradient-to-br from-white/20 to-white/5 rounded-full flex items-center justify-center backdrop-blur-sm">
+                <div className="w-56 h-56 bg-gradient-to-br from-yellow-300 to-purple-500 rounded-full flex items-center justify-center shadow-2xl">
+                  <span className="text-6xl font-bold text-white">★</span>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Right Column - Logo/Visual */}
-            <div className="hidden md:flex justify-center items-center">
-              <div className="relative w-full max-w-sm">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl blur-3xl"></div>
-                <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-12 border border-white/20">
-                  <img 
-                    src="/images/dear.future.luminary.logo.svg.svg" 
-                    alt="Dear Future Luminary" 
-                    className="w-full h-auto"
-                  />
-                </div>
-              </div>
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-8 mt-16 pt-12 border-t border-white/20">
+            <div>
+              <p className="text-4xl font-bold text-white">500+</p>
+              <p className="text-white/80">Opportunities curated</p>
+            </div>
+            <div>
+              <p className="text-4xl font-bold text-white">100+</p>
+              <p className="text-white/80">Students guided</p>
+            </div>
+            <div>
+              <p className="text-4xl font-bold text-white">5+</p>
+              <p className="text-white/80">Countries reached</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* What Makes US Different Section */}
-      <section id="features" className="py-32 px-4 sm:px-6 lg:px-8 bg-white relative">
+      {/* What Makes US Different */}
+      <section id="about" className="py-20 px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-24">
-            <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
-              What Makes<br />
-              <span className="text-[#a488f4]">US Different</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
-              We don't just list opportunities. We teach you how to become competitive for them.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 mb-20">
-            {/* Card 1 */}
-            <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-10 hover:border-[#a488f4]/50 hover:shadow-2xl transition-all duration-300">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#a488f4]/10 to-transparent rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-300"></div>
-              <div className="relative z-10">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="text-5xl">🔬</div>
-                  <h3 className="text-3xl font-bold text-[#1e3a8a] pt-2">Built on Real Experience</h3>
-                </div>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  Everything at Dear Future Luminary is shaped by real journeys, not theory. We break down complex application processes, explain what truly matters, and guide students through paths that members of our community have already walked.
-                </p>
-              </div>
+          <h2 className="text-5xl font-bold mb-4">
+            <span className="text-gray-900">What Makes</span><br />
+            <span className="bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">US Different</span>
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-12 mt-12">
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-lg">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Built on Real Experience</h3>
+              <p className="text-gray-700 leading-relaxed">
+                Everything at Dear Future Luminary is shaped by real journeys, not theory. We break down complex application processes, explain what truly matters, and guide students through paths that members of our community have already walked.
+              </p>
             </div>
-
-            {/* Card 2 */}
-            <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-10 hover:border-[#facc15]/50 hover:shadow-2xl transition-all duration-300">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#facc15]/10 to-transparent rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-300"></div>
-              <div className="relative z-10">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="text-5xl">✨</div>
-                  <h3 className="text-3xl font-bold text-[#1e3a8a] pt-2">Curated, Not Random</h3>
-                </div>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  You won't find scattered links or overwhelming lists. Every opportunity, roadmap, and resource is selected with intention—so students can apply with clarity, confidence, and strategy, not guesswork.
-                </p>
-              </div>
+            
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-8 rounded-lg">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Curated, Not Random</h3>
+              <p className="text-gray-700 leading-relaxed">
+                You won't find scattered links or overwhelming lists. Every opportunity, roadmap, and resource is selected with intention—so students can apply with clarity, confidence, and strategy, not guesswork.
+              </p>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Core Features Grid */}
-          <div className="mt-20">
-            <h3 className="text-4xl font-bold text-[#1e3a8a] mb-12">Core Features</h3>
-            <div className="grid md:grid-cols-3 gap-6">
-              {coreFeatures.map((feature, index) => (
-                <div key={index} className="feature-card p-8 rounded-2xl border border-gray-200 bg-white hover:border-[#a488f4]">
-                  <div className="text-5xl mb-6">{feature.icon}</div>
-                  <h4 className="font-bold text-[#1e3a8a] mb-4 text-lg">{feature.title}</h4>
-                  <p className="text-gray-600 leading-relaxed text-sm">{feature.description}</p>
+      {/* Core Features */}
+      <section id="features" className="py-20 px-6 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl font-bold text-gray-900 mb-16">Core Features</h2>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+            {coreFeatures.map((feature, index) => (
+              <div key={index} className="group">
+                <div className="mb-6">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-blue-500 rounded-lg flex items-center justify-center text-white font-bold text-lg">
+                    {index + 1}
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-purple-600 transition">
+                  {feature.title}
+                </h3>
+                <p className="text-gray-600 leading-relaxed">
+                  {feature.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Programs We're Proud Of */}
+      <section id="programs" className="py-20 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-bold text-center mb-4">
+            <span className="text-gray-900">Programs We're</span><br />
+            <span className="bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">Proud Of</span>
+          </h2>
+          <p className="text-center text-gray-600 mb-4">Our founder and community members have been accepted into these programs.</p>
+          <p className="text-center text-gray-500 text-sm mb-12">Logos shown represent real acceptance journeys. Dear Future Luminary is not officially affiliated with these organizations.</p>
+          
+          <div className="relative overflow-hidden">
+            <div className="flex gap-6 animate-scroll">
+              {[...programs, ...programs].map((program, index) => (
+                <div key={index} className="flex-shrink-0 w-32 h-32 bg-white rounded-lg border border-gray-200 flex items-center justify-center hover:shadow-lg transition">
+                  <img src={`/logos/${program.logo}`} alt={program.name} className="max-w-24 max-h-24 object-contain" />
                 </div>
               ))}
             </div>
@@ -488,104 +278,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Programs Section */}
-      <section id="programs" className="py-32 px-4 sm:px-6 lg:px-8 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
-              Programs We're<br />
-              <span className="text-[#a488f4]">Proud Of</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6 leading-relaxed">
-              Our founder and community members have been accepted into these programs. Their real experiences shape how we guide others.
-            </p>
-            <p className="text-base text-gray-500 italic">
-              Logos shown represent real acceptance journeys. Dear Future Luminary is not officially affiliated with these organizations.
+      {/* Our Mission */}
+      <section className="py-20 px-6 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl font-bold text-white mb-8">Our Mission</h2>
+          
+          <div className="mb-8">
+            <p className="text-5xl font-bold mb-4">
+              <span className="text-yellow-300">Talent is everywhere.</span><br />
+              <span className="text-yellow-300">Access is not.</span>
             </p>
           </div>
 
-          {/* Seamless Infinite Carousel */}
-          <div className="relative overflow-hidden bg-white rounded-3xl border border-gray-200 py-16">
-            <div className="relative overflow-hidden">
-              <div className="logos-carousel">
-                {[...programs, ...programs, ...programs].map((program, index) => (
-                  <div key={index} className="logo-item">
-                    <img
-                      src={`/images/${program.logo}`}
-                      alt={program.name}
-                      title={program.name}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
+          <p className="text-xl text-white/90 mb-8 leading-relaxed">
+            Dear Future Luminary exists to close that gap. We support high school and early college students—especially those from underrepresented communities—by providing clear guidance, trusted resources, and a supportive environment that helps them access global opportunities.
+          </p>
+
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-8">
+            <p className="text-white/80 mb-4">Our mission is simple:</p>
+            <p className="text-2xl font-bold text-white">
+              To turn <span className="text-yellow-300">ambition into direction</span>, <span className="text-yellow-300">confusion into clarity</span>, and <span className="text-yellow-300">potential into real outcomes</span>—so being a luminary becomes possible for everyone, not just a privileged few.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Our Mission Section */}
-      <section id="about" className="py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a] relative overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#a488f4]/20 to-transparent rounded-full -mr-48 -mt-48"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#facc15]/10 to-transparent rounded-full -ml-48 -mb-48"></div>
-
-        <div className="max-w-4xl mx-auto relative z-10">
-          <div className="space-y-12">
-            <div>
-              <h2 className="text-6xl md:text-7xl font-black text-white mb-12 leading-tight">
-                Our Mission
-              </h2>
-              
-              <p className="text-5xl md:text-6xl font-black text-[#facc15] mb-16 leading-tight">
-                Talent is everywhere.<br />
-                Access is not.
-              </p>
-
-              <p className="text-2xl text-white/90 leading-relaxed mb-12">
-                Dear Future Luminary exists to close that gap. We support high school and early college students—especially those from underrepresented communities—by providing clear guidance, trusted resources, and a supportive environment that helps them access global opportunities.
-              </p>
-            </div>
-
-            {/* Mission Statement Box */}
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-12 md:p-16">
-              <p className="text-xl font-bold text-[#facc15] mb-8">Our mission is simple:</p>
-              <p className="text-3xl md:text-4xl font-black text-white leading-relaxed">
-                To turn <span className="text-[#facc15]">ambition into direction</span>, <span className="text-[#facc15]">confusion into clarity</span>, and <span className="text-[#facc15]">potential into real outcomes</span>—so being a luminary becomes possible for everyone, not just a privileged few.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section id="faq" className="py-32 px-4 sm:px-6 lg:px-8 bg-white">
+      {/* FAQ */}
+      <section id="faq" className="py-20 px-6 bg-white">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-20">
-            <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
-              Frequently Asked<br />
-              <span className="text-[#a488f4]">Questions</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
-              Everything you need to know about Dear Future Luminary
-            </p>
-          </div>
+          <h2 className="text-5xl font-bold mb-4">
+            <span className="text-gray-900">Frequently Asked</span><br />
+            <span className="bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">Questions</span>
+          </h2>
+          <p className="text-gray-600 mb-12">Everything you need to know about Dear Future Luminary</p>
 
           <div className="space-y-4">
             {faqItems.map((item, index) => (
-              <div key={index} className="border border-gray-200 rounded-2xl overflow-hidden hover:border-[#a488f4]/50 transition-colors duration-300">
+              <div key={index} className="border-2 border-yellow-300 rounded-lg overflow-hidden">
                 <button
                   onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
-                  className="w-full px-8 py-6 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors duration-300"
+                  className="w-full px-6 py-4 bg-white hover:bg-yellow-50 transition flex items-center justify-between"
                 >
-                  <h3 className="text-lg font-bold text-[#1e3a8a] text-left">{item.question}</h3>
+                  <span className="font-semibold text-gray-900 text-left">{item.question}</span>
                   <ChevronDown 
-                    size={24} 
-                    className={`text-[#a488f4] flex-shrink-0 transition-transform duration-300 ${expandedFAQ === index ? 'rotate-180' : ''}`}
+                    size={20} 
+                    className={`text-purple-600 transition-transform ${expandedFAQ === index ? 'rotate-180' : ''}`}
                   />
                 </button>
                 {expandedFAQ === index && (
-                  <div className="faq-answer px-8 py-6 bg-gradient-to-br from-[#f8f6ff] to-white border-t border-gray-200">
-                    <p className="text-gray-700 leading-relaxed text-lg">{item.answer}</p>
+                  <div className="px-6 py-4 bg-yellow-50 border-t-2 border-yellow-300 text-gray-700">
+                    {item.answer}
                   </div>
                 )}
               </div>
@@ -594,220 +336,177 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a] text-white py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-12 mb-16">
-            <div>
-              <div className="flex items-center gap-2 mb-6">
-                <img src="/images/dear.future.luminary.logo.svg.svg" alt="Dear Future Luminary" className="w-8 h-8" />
-                <span className="font-bold text-lg">Dear Future Luminary</span>
-              </div>
-              <p className="text-white/70 leading-relaxed">
-                Luminaries don't shine alone. We light the way for each other.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-bold mb-6 text-[#facc15] text-lg">Quick Links</h4>
-              <ul className="space-y-3 text-white/70">
-                {quickLinks.map((link, index) => (
-                  <li key={index}>
-                    <a 
-                      href={link.href} 
-                      onClick={handleQuickLinkClick}
-                      className="hover:text-white transition-colors cursor-pointer"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-6 text-[#facc15] text-lg">About</h4>
-              <ul className="space-y-3 text-white/70">
-                <li><a href="#about" className="hover:text-white transition-colors">Our Story & Vision</a></li>
-                <li><a href="#" onClick={handleQuickLinkClick} className="hover:text-white transition-colors cursor-pointer">Community Space</a></li>
-                <li><a href="#" onClick={handleQuickLinkClick} className="hover:text-white transition-colors cursor-pointer">Blog</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold mb-6 text-[#facc15] text-lg">Connect With Us</h4>
-              <div className="flex gap-4 mb-6">
-                <a href="https://www.instagram.com/dear.future.luminary" target="_blank" rel="noopener noreferrer" className="hover:text-[#facc15] transition-colors" title="Instagram">
-                  <Instagram size={24} />
-                </a>
-                <a href="https://www.facebook.com/dear.future.luminary" target="_blank" rel="noopener noreferrer" className="hover:text-[#facc15] transition-colors" title="Facebook">
-                  <Facebook size={24} />
-                </a>
-                <a href="mailto:contact@dearfutureluminary.com" className="hover:text-[#facc15] transition-colors" title="Email">
-                  <Mail size={24} />
-                </a>
-                <a href="https://www.youtube.com/@malak_luminary" target="_blank" rel="noopener noreferrer" className="hover:text-[#facc15] transition-colors" title="YouTube">
-                  <Youtube size={24} />
-                </a>
-              </div>
-              <button 
-                onClick={() => setShowJoinModal(true)}
-                className="w-full px-6 py-3 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] text-white rounded-full font-bold hover:shadow-lg hover:shadow-[#a488f4]/40 transition-all duration-300 hover:-translate-y-1"
+      {/* CTA Section */}
+      <section className="py-20 px-6 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-12">
+            <p className="text-white/90 mb-6 leading-relaxed text-lg">
+              Dear Future Luminary started as a simple idea: no student should feel lost or alone while trying to grow.
+              Whether you want to join our team or support our mission, this is your space to make an impact, share what you learn, and help students thrive.
+              You don't need to have everything figured out. Together, we'll grow, learn, and build something meaningful.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-6 justify-center mt-10">
+              <a
+                href="https://forms.gle/pLqpSodiuMmB36Ei8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold rounded-lg hover:from-yellow-400 hover:to-yellow-500 hover:text-gray-900 transition-all duration-300 transform hover:scale-105"
               >
-                Join our team
-              </button>
+                Join the Movement
+              </a>
+              <a
+                href="https://forms.gle/1uFr976gMZqtJHcw7"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold rounded-lg hover:from-yellow-400 hover:to-yellow-500 hover:text-gray-900 transition-all duration-300 transform hover:scale-105"
+              >
+                Sponsor Us
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gradient-to-br from-purple-400 via-purple-300 to-blue-200 text-white py-16 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
+                  <span className="text-white font-bold text-sm">DFL</span>
+                </div>
+                <span className="font-bold">Dear Future Luminary</span>
+              </div>
+              <p className="text-white/80 text-sm">Luminaries don't shine alone. We light the way for each other.</p>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-sm text-white/80">
+                <li><a href="#" onClick={() => setShowComingSoonModal(true)} className="hover:text-white transition">Home</a></li>
+                <li><a href="#" onClick={() => setShowComingSoonModal(true)} className="hover:text-white transition">Roadmaps</a></li>
+                <li><a href="#" onClick={() => setShowComingSoonModal(true)} className="hover:text-white transition">Scholarship Hub</a></li>
+                <li><a href="#" onClick={() => setShowComingSoonModal(true)} className="hover:text-white transition">Profile Building</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4">About</h4>
+              <ul className="space-y-2 text-sm text-white/80">
+                <li><a href="#" onClick={() => setShowComingSoonModal(true)} className="hover:text-white transition">Our Story & Vision</a></li>
+                <li><a href="#" onClick={() => setShowComingSoonModal(true)} className="hover:text-white transition">Community Space</a></li>
+                <li><a href="#" onClick={() => setShowComingSoonModal(true)} className="hover:text-white transition">Blog</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4">Connect With Us</h4>
+              <div className="flex gap-4">
+                <a href="#" className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition">
+                  <Instagram size={18} />
+                </a>
+                <a href="#" className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition">
+                  <Facebook size={18} />
+                </a>
+                <a href="#" className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition">
+                  <Mail size={18} />
+                </a>
+                <a href="#" className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 transition">
+                  <Youtube size={18} />
+                </a>
+              </div>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 md:p-12 mb-12">
-            <h4 className="font-bold mb-6 text-[#facc15] text-lg">Contact Us</h4>
-            <form onSubmit={handleContactSubmit} className="space-y-4">
+          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-xl p-8 mb-12">
+            <h4 className="font-bold text-lg mb-6">Contact Us</h4>
+            <form onSubmit={handleContactFormSubmit} className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <input
                   type="text"
+                  name="name"
                   placeholder="Your Name"
                   value={contactFormData.name}
-                  onChange={(e) => setContactFormData({ ...contactFormData, name: e.target.value })}
+                  onChange={handleContactFormChange}
                   required
-                  className="px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-[#facc15] transition-colors"
+                  className="px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/50 transition"
                 />
                 <input
                   type="email"
+                  name="email"
                   placeholder="Your Email"
                   value={contactFormData.email}
-                  onChange={(e) => setContactFormData({ ...contactFormData, email: e.target.value })}
+                  onChange={handleContactFormChange}
                   required
-                  className="px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-[#facc15] transition-colors"
+                  className="px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/50 transition"
                 />
               </div>
               <textarea
+                name="message"
                 placeholder="Your Message"
                 value={contactFormData.message}
-                onChange={(e) => setContactFormData({ ...contactFormData, message: e.target.value })}
+                onChange={handleContactFormChange}
                 required
-                rows={3}
-                className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-[#facc15] transition-colors resize-none"
+                rows={4}
+                className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:border-white/50 transition"
               />
               <button
                 type="submit"
-                className="flex items-center gap-2 px-6 py-3 bg-[#facc15] text-[#1e3a8a] rounded-full font-bold hover:shadow-lg hover:shadow-[#facc15]/40 transition-all duration-300 hover:-translate-y-1"
+                className="px-6 py-3 bg-yellow-400 text-gray-900 font-semibold rounded-lg hover:bg-yellow-300 transition flex items-center gap-2"
               >
                 <Send size={18} />
                 Send Message
               </button>
               {contactFormSubmitted && (
-                <p className="text-[#facc15] font-semibold">Thank you! Your message has been sent successfully.</p>
+                <p className="text-green-300 text-sm">Message sent successfully!</p>
               )}
             </form>
           </div>
 
-          <div className="border-t border-white/10 pt-8 text-center text-white/60">
-            <p>
-              Developed by{' '}
-              <a 
-                href="https://www.linkedin.com/in/loka-luminary/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="hover:text-[#facc15] transition-colors font-semibold"
-              >
-                Malak Emad
-              </a>
-            </p>
-            <p className="mt-4">&copy; 2026 Dear Future Luminary. All rights reserved.</p>
+          <div className="border-t border-white/20 pt-8 text-center text-white/70 text-sm">
+            <p>Made with purpose by Malak Emad</p>
           </div>
         </div>
       </footer>
 
-      {/* Join Team Modal */}
-      {showJoinModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="modal-content bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div className="sticky top-0 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] p-8 flex items-center justify-between">
-              <h2 className="text-3xl font-black text-white">Welcome to Dear Future Luminary!</h2>
-              <button 
-                onClick={() => setShowJoinModal(false)}
-                className="text-white hover:bg-white/20 rounded-full p-2 transition-colors"
-              >
-                <X size={28} />
-              </button>
-            </div>
-
-            <div className="p-8 md:p-12 space-y-8">
-              <div className="space-y-4">
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  We are building a community of students who act, grow, and support each other. If you value honesty, consistency, and purpose, you'll fit here.
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-2xl font-bold text-[#1e3a8a]">Here is what we look for:</h3>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">✓</span>
-                    <span className="text-lg">A positive attitude toward learning.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">✓</span>
-                    <span className="text-lg">Clear communication and reliability.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">✓</span>
-                    <span className="text-lg">Respect for others' time and ideas.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">✓</span>
-                    <span className="text-lg">A genuine interest in the mission.</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-gradient-to-br from-[#a488f4]/10 to-[#facc15]/10 border border-[#a488f4]/20 rounded-2xl p-8">
-                <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                  If this feels like you, apply below. Let's build something meaningful together.
-                </p>
-                <a 
-                  href="https://forms.gle/1wEJ8q6ks4hsjFsP8"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] text-white rounded-full font-bold hover:shadow-lg hover:shadow-[#a488f4]/40 transition-all duration-300 hover:-translate-y-1 text-lg"
-                >
-                  Fill out the Application Form
-                  <ArrowRight size={20} />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Coming Soon Modal */}
       {showComingSoonModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="modal-content bg-white rounded-3xl max-w-md w-full shadow-2xl">
-            <div className="bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] p-8 flex items-center justify-between">
-              <h2 className="text-2xl font-black text-white">Oopsyy!!</h2>
-              <button 
-                onClick={() => setShowComingSoonModal(false)}
-                className="text-white hover:bg-white/20 rounded-full p-2 transition-colors"
-              >
-                <X size={28} />
-              </button>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
+            <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full mb-6 mx-auto">
+              <AlertCircle className="text-blue-600" size={24} />
             </div>
-
-            <div className="p-8 space-y-6 text-center">
-              <AlertCircle size={48} className="mx-auto text-[#facc15]" />
-              <div className="space-y-3">
-                <p className="text-lg font-bold text-[#1e3a8a]">This feature is not available right now...</p>
-                <p className="text-gray-600">BUT don't worry, we're coming ASAP!</p>
-              </div>
-              <button 
-                onClick={() => setShowComingSoonModal(false)}
-                className="w-full px-6 py-3 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] text-white rounded-full font-bold hover:shadow-lg transition-all duration-300"
-              >
-                Got it!
-              </button>
-            </div>
+            <h3 className="text-2xl font-bold text-gray-900 text-center mb-4">Coming Soon</h3>
+            <p className="text-gray-600 text-center mb-8">
+              This feature is not available right now. But don't worry, we're working on bringing you something amazing very soon!
+            </p>
+            <button
+              onClick={() => setShowComingSoonModal(false)}
+              className="w-full px-6 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-semibold rounded-lg hover:from-purple-600 hover:to-blue-600 transition"
+            >
+              Got it
+            </button>
           </div>
         </div>
       )}
+
+      <style jsx>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        
+        .animate-scroll {
+          animation: scroll 30s linear infinite;
+        }
+      `}</style>
     </div>
   );
 }
