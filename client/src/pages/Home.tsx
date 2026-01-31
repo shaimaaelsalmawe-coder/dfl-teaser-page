@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChevronRight, Menu, X, Instagram, Mail, Youtube, Facebook, ArrowRight, AlertCircle } from 'lucide-react';
+import { ChevronDown, Menu, X, Instagram, Mail, Youtube, Facebook, ArrowRight, AlertCircle, Send } from 'lucide-react';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -7,6 +7,9 @@ export default function Home() {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
   const [showJoinModal, setShowJoinModal] = useState(false);
   const [showComingSoonModal, setShowComingSoonModal] = useState(false);
+  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);
+  const [contactFormData, setContactFormData] = useState({ name: '', email: '', message: '' });
+  const [contactFormSubmitted, setContactFormSubmitted] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -83,6 +86,29 @@ export default function Home() {
     }
   ];
 
+  const faqItems = [
+    {
+      question: 'What is Dear Future Luminary?',
+      answer: 'Think of Dear Future Luminary as the friend who already figured things out and decided to share the map. We organize real global opportunities and explain them in a way that actually makes sense—so you stop feeling lost and start moving forward.'
+    },
+    {
+      question: 'Do I need to be "exceptional" to belong here?',
+      answer: 'Not at all. You don\'t need awards, experience, or a perfect profile. If you\'re curious, motivated, or even just trying to figure things out, you\'re exactly where you\'re supposed to be.'
+    },
+    {
+      question: 'Will this guarantee I get accepted into programs?',
+      answer: 'No magic promises here. But we will help you understand opportunities, prepare better, and apply with confidence instead of guessing. And honestly? That already changes everything.'
+    },
+    {
+      question: 'I\'m still in high school and totally confused. Is this for me?',
+      answer: 'Yes—100%. This was built for that exact phase: when you know you want more, but don\'t know where to start. Most of what you\'ll find here starts from zero and walks with you step by step.'
+    },
+    {
+      question: 'How can I get involved?',
+      answer: 'Start by exploring. Read, learn, try things out. If you want to contribute, share your journey, or join the team, there\'s always space for people who care and want to grow—just like you.'
+    }
+  ];
+
   const quickLinks = [
     { label: 'Home', href: '#' },
     { label: 'Roadmaps', href: '#' },
@@ -96,6 +122,24 @@ export default function Home() {
   const handleQuickLinkClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setShowComingSoonModal(true);
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('https://formspree.io/f/xqaqankn', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contactFormData)
+      });
+      if (response.ok) {
+        setContactFormSubmitted(true);
+        setContactFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setContactFormSubmitted(false), 3000);
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   return (
@@ -136,7 +180,7 @@ export default function Home() {
         .logos-carousel {
           display: flex;
           gap: 2rem;
-          animation: scroll-seamless 60s linear infinite;
+          animation: scroll-seamless 80s linear infinite;
           width: fit-content;
         }
         .logos-carousel:hover {
@@ -144,23 +188,25 @@ export default function Home() {
         }
         .logo-item {
           flex-shrink-0;
-          width: 100px;
-          height: 100px;
+          width: 120px;
+          height: 120px;
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #f9fafb;
-          border-radius: 12px;
+          background: linear-gradient(135deg, #f9fafb 0%, #f3f4f6 100%);
+          border-radius: 16px;
           border: 1px solid #e5e7eb;
           transition: all 0.3s ease;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
         .logo-item:hover {
           border-color: #a488f4;
-          box-shadow: 0 4px 12px rgba(164, 136, 244, 0.15);
+          box-shadow: 0 8px 20px rgba(164, 136, 244, 0.2);
+          transform: translateY(-4px);
         }
         .logo-item img {
-          max-width: 80px;
-          max-height: 80px;
+          max-width: 90px;
+          max-height: 90px;
           object-fit: contain;
         }
 
@@ -176,6 +222,20 @@ export default function Home() {
         }
         .modal-content {
           animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            max-height: 0;
+          }
+          to {
+            opacity: 1;
+            max-height: 500px;
+          }
+        }
+        .faq-answer {
+          animation: slideDown 0.3s ease-out;
         }
 
         /* Mesh Gradient Background */
@@ -276,17 +336,8 @@ export default function Home() {
               <a href="#programs" className="text-gray-600 hover:text-[#a488f4] transition-colors font-medium text-sm">
                 Programs
               </a>
-            </div>
-
-            {/* CTA Button */}
-            <div className="hidden md:flex items-center gap-3">
-              <a 
-                href="https://forms.gle/1wEJ8q6ks4hsjFsP8"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-2.5 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] text-white rounded-full font-semibold hover:shadow-lg hover:shadow-[#a488f4]/30 transition-all duration-300 hover:-translate-y-0.5 text-sm"
-              >
-                Join the Movement
+              <a href="#faq" className="text-gray-600 hover:text-[#a488f4] transition-colors font-medium text-sm">
+                FAQ
               </a>
             </div>
 
@@ -311,81 +362,67 @@ export default function Home() {
               <a href="#programs" className="block py-2 text-gray-600 hover:text-[#a488f4] text-sm">
                 Programs
               </a>
-              <div className="flex gap-2 mt-4">
-                <a 
-                  href="https://forms.gle/1wEJ8q6ks4hsjFsP8"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 px-4 py-2 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] text-white rounded-full font-semibold text-sm text-center"
-                >
-                  Join the Movement
-                </a>
-              </div>
+              <a href="#faq" className="block py-2 text-gray-600 hover:text-[#a488f4] text-sm">
+                FAQ
+              </a>
             </div>
           )}
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 mesh-gradient relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="space-y-12 max-w-4xl">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#a488f4]/10 rounded-full border border-[#a488f4]/20 backdrop-blur-sm">
-              <span className="w-2 h-2 bg-[#facc15] rounded-full animate-pulse"></span>
-              <span className="text-sm font-semibold text-[#a488f4]">Coming Soon</span>
-            </div>
+      {/* Hero Section - Professional Two-Column Layout */}
+      <section className="pt-32 pb-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#a488f4] via-[#8a6ef1] to-[#7b5fde] relative overflow-hidden min-h-[70vh] flex items-center">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -mr-48 -mt-48"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -ml-48 -mb-48"></div>
 
-            <div className="space-y-6">
-              <h1 className="text-7xl md:text-8xl font-black text-[#1e3a8a] leading-tight">
-                Dear Future<br />
-                <span className="bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] bg-clip-text text-transparent">
-                  Luminary
-                </span>
-              </h1>
-              <p className="text-2xl md:text-3xl font-semibold text-[#a488f4] leading-tight">
-                For the future that's watching.
-              </p>
-            </div>
-
-            <div className="space-y-6 text-lg md:text-xl text-gray-700 leading-relaxed max-w-2xl">
-              <div className="space-y-3">
-                <p className="font-semibold text-[#1e3a8a]">Discover your direction.</p>
-                <p className="font-semibold text-[#1e3a8a]">Build your path with clarity.</p>
-                <p className="font-semibold text-[#1e3a8a]">Access real global opportunities.</p>
+        <div className="max-w-7xl mx-auto relative z-10 w-full">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Text Content */}
+            <div className="space-y-8">
+              <div>
+                <h1 className="text-5xl md:text-6xl font-black text-white mb-4 leading-tight">
+                  Dear Future<br />Luminary
+                </h1>
+                <p className="text-2xl md:text-3xl font-serif text-[#facc15] mb-6 relative inline-block">
+                  For the future that's watching.
+                  <span className="absolute bottom-0 left-0 w-24 h-1 bg-[#facc15] rounded-full"></span>
+                </p>
               </div>
-              <p className="text-gray-600 pt-4">
-                We're here to help you find where you belong, understand your next step, and move forward with confidence. You're not alone on this journey.
-              </p>
+
+              <div className="space-y-4 text-white/90 text-lg leading-relaxed">
+                <p>Discover your direction. Build your path with clarity. Access real global opportunities.</p>
+                <p>We're here to help you find where you belong, understand your next step, and move forward with confidence. You're not alone on this journey.</p>
+              </div>
+
+              {/* Impact Snapshot */}
+              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/20">
+                <div className="space-y-1">
+                  <p className="text-3xl font-black text-[#facc15]">500+</p>
+                  <p className="text-sm text-white/80">Opportunities curated</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-3xl font-black text-[#facc15]">100+</p>
+                  <p className="text-sm text-white/80">Students guided</p>
+                </div>
+                <div className="space-y-1">
+                  <p className="text-3xl font-black text-[#facc15]">5+</p>
+                  <p className="text-sm text-white/80">Countries reached</p>
+                </div>
+              </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-8">
-              <a 
-                href="https://forms.gle/1wEJ8q6ks4hsjFsP8"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] text-white rounded-full font-bold hover:shadow-xl hover:shadow-[#a488f4]/40 transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2 text-center text-lg"
-              >
-                Join the Movement
-                <ArrowRight size={20} />
-              </a>
-              <button className="px-8 py-4 border-2 border-[#a488f4] text-[#a488f4] rounded-full font-bold hover:bg-[#a488f4]/5 transition-all duration-300 text-lg">
-                Learn More
-              </button>
-            </div>
-
-            {/* Impact Snapshot */}
-            <div className="grid grid-cols-3 gap-8 pt-12 border-t border-gray-200">
-              <div className="space-y-2">
-                <p className="text-4xl font-black text-[#a488f4]">500+</p>
-                <p className="text-gray-600 font-medium">Opportunities carefully curated</p>
-              </div>
-              <div className="space-y-2">
-                <p className="text-4xl font-black text-[#a488f4]">100+</p>
-                <p className="text-gray-600 font-medium">Students supported and guided</p>
-              </div>
-              <div className="space-y-2">
-                <p className="text-4xl font-black text-[#a488f4]">5+</p>
-                <p className="text-gray-600 font-medium">Countries reached so far</p>
+            {/* Right Column - Logo/Visual */}
+            <div className="hidden md:flex justify-center items-center">
+              <div className="relative w-full max-w-sm">
+                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl blur-3xl"></div>
+                <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-12 border border-white/20">
+                  <img 
+                    src="/images/dear.future.luminary.logo.svg.svg" 
+                    alt="Dear Future Luminary" 
+                    className="w-full h-auto"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -468,7 +505,7 @@ export default function Home() {
           </div>
 
           {/* Seamless Infinite Carousel */}
-          <div className="relative overflow-hidden bg-white rounded-3xl border border-gray-200 py-12">
+          <div className="relative overflow-hidden bg-white rounded-3xl border border-gray-200 py-16">
             <div className="relative overflow-hidden">
               <div className="logos-carousel">
                 {[...programs, ...programs, ...programs].map((program, index) => (
@@ -520,8 +557,45 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FAQ Section */}
+      <section id="faq" className="py-32 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-20">
+            <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
+              Frequently Asked<br />
+              <span className="text-[#a488f4]">Questions</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
+              Everything you need to know about Dear Future Luminary
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqItems.map((item, index) => (
+              <div key={index} className="border border-gray-200 rounded-2xl overflow-hidden hover:border-[#a488f4]/50 transition-colors duration-300">
+                <button
+                  onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
+                  className="w-full px-8 py-6 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors duration-300"
+                >
+                  <h3 className="text-lg font-bold text-[#1e3a8a] text-left">{item.question}</h3>
+                  <ChevronDown 
+                    size={24} 
+                    className={`text-[#a488f4] flex-shrink-0 transition-transform duration-300 ${expandedFAQ === index ? 'rotate-180' : ''}`}
+                  />
+                </button>
+                {expandedFAQ === index && (
+                  <div className="faq-answer px-8 py-6 bg-gradient-to-br from-[#f8f6ff] to-white border-t border-gray-200">
+                    <p className="text-gray-700 leading-relaxed text-lg">{item.answer}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="bg-[#1e3a8a] text-white py-20 px-4 sm:px-6 lg:px-8">
+      <footer className="bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a] text-white py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-12 mb-16">
             <div>
@@ -581,6 +655,50 @@ export default function Home() {
               </button>
             </div>
           </div>
+
+          {/* Contact Form */}
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 md:p-12 mb-12">
+            <h4 className="font-bold mb-6 text-[#facc15] text-lg">Contact Us</h4>
+            <form onSubmit={handleContactSubmit} className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  placeholder="Your Name"
+                  value={contactFormData.name}
+                  onChange={(e) => setContactFormData({ ...contactFormData, name: e.target.value })}
+                  required
+                  className="px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-[#facc15] transition-colors"
+                />
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  value={contactFormData.email}
+                  onChange={(e) => setContactFormData({ ...contactFormData, email: e.target.value })}
+                  required
+                  className="px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-[#facc15] transition-colors"
+                />
+              </div>
+              <textarea
+                placeholder="Your Message"
+                value={contactFormData.message}
+                onChange={(e) => setContactFormData({ ...contactFormData, message: e.target.value })}
+                required
+                rows={3}
+                className="w-full px-4 py-3 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-[#facc15] transition-colors resize-none"
+              />
+              <button
+                type="submit"
+                className="flex items-center gap-2 px-6 py-3 bg-[#facc15] text-[#1e3a8a] rounded-full font-bold hover:shadow-lg hover:shadow-[#facc15]/40 transition-all duration-300 hover:-translate-y-1"
+              >
+                <Send size={18} />
+                Send Message
+              </button>
+              {contactFormSubmitted && (
+                <p className="text-[#facc15] font-semibold">Thank you! Your message has been sent successfully.</p>
+              )}
+            </form>
+          </div>
+
           <div className="border-t border-white/10 pt-8 text-center text-white/60">
             <p>
               Developed by{' '}
