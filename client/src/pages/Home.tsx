@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChevronDown, Menu, X, Instagram, Mail, Youtube, Facebook, ArrowRight, AlertCircle, Send } from 'lucide-react';
+import { ChevronDown, Menu, X, Instagram, Mail, Youtube, Facebook, ArrowRight, AlertCircle, Send, Radar, Map, Sparkles, Leaf, Handshake, Target, Zap, Lightbulb } from 'lucide-react';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,9 +19,15 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const [cursorColor, setCursorColor] = useState('#a488f4');
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setCursorPos({ x: e.clientX, y: e.clientY });
+      
+      const target = e.target as HTMLElement;
+      const isInteractive = target?.closest('button, a, input, textarea, [role="button"]');
+      setCursorColor(isInteractive ? '#facc15' : '#a488f4');
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
@@ -57,32 +63,32 @@ export default function Home() {
     {
       title: 'Opportunity Radar',
       description: 'A carefully curated collection of real global opportunities—scholarships, summer programs, exchanges, and initiatives—organized clearly so students can understand what fits them and why.',
-      icon: '📡'
+      icon: <Radar size={36} className="text-[#a488f4]" />
     },
     {
       title: 'Clear Roadmaps',
       description: 'Structured, beginner-friendly paths that help students move from uncertainty to action. Each roadmap breaks big goals into clear, manageable steps, showing where to start and how to progress.',
-      icon: '🗺️'
+      icon: <Map size={36} className="text-[#a488f4]" />
     },
     {
       title: 'Profile Building',
       description: 'Practical guidance that helps students present themselves honestly and confidently. From CVs to personal statements, the focus is on clarity, authenticity, and understanding what opportunities are truly looking for.',
-      icon: '✨'
+      icon: <Sparkles size={36} className="text-[#a488f4]" />
     },
     {
       title: 'Personal Growth',
       description: 'A dedicated space for inner development—confidence, mindset, self-awareness, and leadership—because strong applications start with a strong sense of self.',
-      icon: '🌱'
+      icon: <Leaf size={36} className="text-[#a488f4]" />
     },
     {
       title: 'Shared Learning & Support',
       description: 'Students don\'t grow alone. Dear Future Luminary brings together shared experiences, peer learning, and honest stories so no one feels isolated while figuring things out.',
-      icon: '🤝'
+      icon: <Handshake size={36} className="text-[#a488f4]" />
     },
     {
       title: 'Guided Clarity',
       description: 'No shortcuts, no exaggerated promises. Just carefully organized knowledge, clear explanations, and intentional guidance that helps students think, choose, and move forward on their own.',
-      icon: '🎯'
+      icon: <Target size={36} className="text-[#a488f4]" />
     }
   ];
 
@@ -161,12 +167,12 @@ export default function Home() {
           position: fixed;
           width: 12px;
           height: 12px;
-          background: #a488f4;
           border-radius: 50%;
           pointer-events: none;
           z-index: 9999;
           animation: pulse-cursor 1.5s infinite;
           transform: translate(-50%, -50%);
+          transition: background-color 0.2s ease;
         }
         
         @keyframes scroll-seamless {
@@ -297,9 +303,9 @@ export default function Home() {
       `}</style>
 
       {/* Custom Cursor */}
-      <div 
+      <div
         className="custom-cursor"
-        style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px` }}
+        style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px`, background: cursorColor }}
       />
 
       {/* Sticky Navbar */}
@@ -414,25 +420,20 @@ export default function Home() {
 
             {/* Right Column - Logo/Visual */}
             <div className="hidden md:flex justify-center items-center">
-              <div className="relative w-full max-w-sm">
-                <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent rounded-3xl blur-3xl"></div>
-                <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-12 border border-white/20">
-                  <img 
-                    src="/images/dear.future.luminary.logo.svg.svg" 
-                    alt="Dear Future Luminary" 
-                    className="w-full h-auto"
-                  />
-                </div>
-              </div>
+              <img 
+                src="/images/dear.future.luminary.logo.svg.svg" 
+                alt="Dear Future Luminary" 
+                className="w-full h-auto max-w-sm"
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* What Makes US Different Section */}
-      <section id="features" className="py-32 px-4 sm:px-6 lg:px-8 bg-white relative">
+      <section id="features" className="py-32 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-24">
+          <div className="mb-32">
             <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
               What Makes<br />
               <span className="text-[#a488f4]">US Different</span>
@@ -442,45 +443,81 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 mb-20">
-            {/* Card 1 */}
-            <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-10 hover:border-[#a488f4]/50 hover:shadow-2xl transition-all duration-300">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#a488f4]/10 to-transparent rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-300"></div>
-              <div className="relative z-10">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="text-5xl">🔬</div>
-                  <h3 className="text-3xl font-bold text-[#1e3a8a] pt-2">Built on Real Experience</h3>
+          {/* Storytelling Layout with Animations */}
+          <div className="space-y-16">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              {/* Left - Title & Description */}
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] leading-tight mb-4">
+                    What Makes<br />
+                    <span className="text-[#a488f4]">US Different</span>
+                  </h2>
                 </div>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  Everything at Dear Future Luminary is shaped by real journeys, not theory. We break down complex application processes, explain what truly matters, and guide students through paths that members of our community have already walked.
+                <p className="text-xl text-gray-600 leading-relaxed">
+                  We don't just list opportunities. We teach you how to become competitive for them.
                 </p>
+              </div>
+              
+              {/* Right - Decorative Element */}
+              <div className="relative h-64 hidden md:block">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#a488f4]/10 to-[#facc15]/10 rounded-3xl"></div>
+                <div className="absolute top-8 right-8 w-32 h-32 bg-[#a488f4] rounded-3xl opacity-20 blur-2xl"></div>
+                <div className="absolute bottom-8 left-8 w-28 h-28 bg-[#facc15] rounded-full opacity-20 blur-2xl"></div>
               </div>
             </div>
 
-            {/* Card 2 */}
-            <div className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-gradient-to-br from-white to-gray-50 p-10 hover:border-[#facc15]/50 hover:shadow-2xl transition-all duration-300">
-              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#facc15]/10 to-transparent rounded-full -mr-20 -mt-20 group-hover:scale-150 transition-transform duration-300"></div>
-              <div className="relative z-10">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="text-5xl">✨</div>
-                  <h3 className="text-3xl font-bold text-[#1e3a8a] pt-2">Curated, Not Random</h3>
+            {/* Feature Cards - Storytelling Style */}
+            <div className="space-y-6">
+              {/* Feature 1 */}
+              <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#a488f4]/10 to-transparent p-8 md:p-12 border border-[#a488f4]/20 hover:border-[#a488f4]/50 hover:shadow-2xl transition-all duration-300">
+                <div className="flex items-start gap-6">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-[#a488f4] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Zap size={32} className="text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl md:text-3xl font-black text-[#1e3a8a] mb-3">
+                      Built on <span className="text-[#a488f4]">Real Experience</span>
+                    </h3>
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                      Everything is shaped by real journeys, not theory. We break down complex processes and guide you through paths our community has already walked.
+                    </p>
+                  </div>
                 </div>
-                <p className="text-lg text-gray-700 leading-relaxed">
-                  You won't find scattered links or overwhelming lists. Every opportunity, roadmap, and resource is selected with intention—so students can apply with clarity, confidence, and strategy, not guesswork.
-                </p>
+              </div>
+
+              {/* Feature 2 */}
+              <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#facc15]/10 to-transparent p-8 md:p-12 border border-[#facc15]/20 hover:border-[#facc15]/50 hover:shadow-2xl transition-all duration-300">
+                <div className="flex items-start gap-6">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-[#facc15] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <Lightbulb size={32} className="text-[#1e3a8a]" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl md:text-3xl font-black text-[#1e3a8a] mb-3">
+                      <span className="text-[#facc15]">Curated</span>, Not Random
+                    </h3>
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                      Every opportunity and resource is selected with intention. No scattered links. No overwhelming lists. Just clarity, confidence, and strategy.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Core Features Grid */}
-          <div className="mt-20">
+          {/* Core Features Grid - Premium Layout */}
+          <div className="mt-24">
             <h3 className="text-4xl font-bold text-[#1e3a8a] mb-12">Core Features</h3>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 gap-8">
               {coreFeatures.map((feature, index) => (
-                <div key={index} className="feature-card p-8 rounded-2xl border border-gray-200 bg-white hover:border-[#a488f4]">
-                  <div className="text-5xl mb-6">{feature.icon}</div>
-                  <h4 className="font-bold text-[#1e3a8a] mb-4 text-lg">{feature.title}</h4>
-                  <p className="text-gray-600 leading-relaxed text-sm">{feature.description}</p>
+                <div key={index} className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white p-8 md:p-10 hover:shadow-xl transition-all duration-300">
+                  <div className="relative z-10">
+                    <div className="mb-6 flex items-center justify-center w-14 h-14 rounded-2xl bg-[#a488f4]/10">
+                      {feature.icon}
+                    </div>
+                    <h4 className="font-bold text-[#1e3a8a] mb-4 text-xl">{feature.title}</h4>
+                    <p className="text-gray-600 leading-relaxed text-base">{feature.description}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -489,37 +526,41 @@ export default function Home() {
       </section>
 
       {/* Programs Section */}
-      <section id="programs" className="py-32 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      <section id="programs" className="py-32 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
+          <div className="text-center mb-24">
             <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
               Programs We're<br />
               <span className="text-[#a488f4]">Proud Of</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-6 leading-relaxed">
-              Our founder and community members have been accepted into these programs. Their real experiences shape how we guide others.
-            </p>
-            <p className="text-base text-gray-500 italic">
-              Logos shown represent real acceptance journeys. Dear Future Luminary is not officially affiliated with these organizations.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Our founder and community members have been accepted into these programs. Explore their journeys and find your own path.
             </p>
           </div>
 
-          {/* Seamless Infinite Carousel */}
-          <div className="relative overflow-hidden bg-white rounded-3xl border border-gray-200 py-16">
-            <div className="relative overflow-hidden">
-              <div className="logos-carousel">
-                {[...programs, ...programs, ...programs].map((program, index) => (
-                  <div key={index} className="logo-item">
-                    <img
-                      src={`/images/${program.logo}`}
-                      alt={program.name}
-                      title={program.name}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
+          {/* Professional Grid Layout - Asana Style */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+            {programs.map((program, index) => (
+              <a
+                key={index}
+                href={program.link || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center justify-center p-8 rounded-2xl border border-gray-200 bg-white hover:border-[#a488f4] hover:shadow-2xl hover:bg-gradient-to-br hover:from-[#a488f4]/10 to-white transition-all duration-300 cursor-pointer"
+                title={program.name}
+              >
+                <img
+                  src={`/images/${program.logo}`}
+                  alt={program.name}
+                  className="h-12 object-contain group-hover:scale-125 transition-transform duration-300"
+                />
+              </a>
+            ))}
           </div>
+
+          <p className="text-center text-gray-500 text-sm mt-12">
+            Click any logo to explore the program. Each represents real acceptance journeys from our community.
+          </p>
         </div>
       </section>
 
@@ -594,8 +635,64 @@ export default function Home() {
         </div>
       </section>
 
+      {/* CTA Gradient Box Section */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-white to-[#f8f6ff]">
+        <div className="max-w-6xl mx-auto">
+          <div className="relative overflow-hidden rounded-3xl p-12 md:p-20 text-center space-y-8 bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a]">
+            <style>{`
+              @keyframes gradient-shift {
+                0%, 100% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+              }
+              .gradient-mesh {
+                background: linear-gradient(135deg, #1e3a8a 0%, #2d4a9f 25%, #a488f4 50%, #2d4a9f 75%, #1e3a8a 100%);
+                background-size: 400% 400%;
+                animation: gradient-shift 15s ease infinite;
+              }
+            `}</style>
+            {/* Gradient Mesh Background */}
+            <div className="absolute inset-0 gradient-mesh opacity-100 pointer-events-none"></div>
+            
+            {/* Decorative Floating Elements */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#a488f4]/30 to-transparent rounded-full -mr-48 -mt-48 pointer-events-none blur-2xl"></div>
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-[#facc15]/20 to-transparent rounded-full -ml-40 -mb-40 pointer-events-none blur-2xl"></div>
+            <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-gradient-to-br from-[#a488f4]/15 to-[#facc15]/15 rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none blur-3xl"></div>
+            
+            <div className="relative z-10 space-y-8">
+              <p className="text-white text-lg leading-relaxed max-w-3xl mx-auto">
+                Dear Future Luminary started as a <span className="font-bold text-[#facc15]">simple idea</span>: no student should feel <span className="font-bold text-[#facc15]">lost or alone</span> while trying to grow.
+              </p>
+              <p className="text-white text-lg leading-relaxed max-w-3xl mx-auto">
+                Whether you want to <span className="font-bold text-[#facc15]">join our team</span> or <span className="font-bold text-[#facc15]">support our mission</span>, this is your space to <span className="font-bold text-[#a488f4]">make an impact</span>, share what you learn, and help students thrive.
+              </p>
+              <p className="text-white text-lg leading-relaxed max-w-3xl mx-auto">
+                You don't need to have everything figured out. <span className="font-bold text-[#facc15]">Together</span>, we'll grow, learn, and <span className="font-bold text-[#a488f4]">build something meaningful</span>.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+                <a
+                  href="https://forms.gle/pLqpSodiuMmB36Ei8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-12 py-4 bg-[#facc15] text-[#1e3a8a] rounded-xl font-bold hover:bg-white hover:shadow-2xl hover:shadow-[#facc15]/50 transition-all duration-300 hover:-translate-y-1 text-lg"
+                >
+                  Join the Movement
+                </a>
+                <a
+                  href="https://forms.gle/1uFr976gMZqtJHcw7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-12 py-4 bg-[#a488f4] text-white rounded-xl font-bold hover:bg-[#facc15] hover:text-[#1e3a8a] hover:shadow-2xl hover:shadow-[#a488f4]/50 transition-all duration-300 hover:-translate-y-1 text-lg"
+                >
+                  Sponsor Us
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a] text-white py-20 px-4 sm:px-6 lg:px-8">
+      <footer className="bg-gradient-to-br from-[#a488f4] via-[#8a6ef1] to-[#7b5fde] text-white py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-12 mb-16">
             <div>
@@ -647,12 +744,7 @@ export default function Home() {
                   <Youtube size={24} />
                 </a>
               </div>
-              <button 
-                onClick={() => setShowJoinModal(true)}
-                className="w-full px-6 py-3 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] text-white rounded-full font-bold hover:shadow-lg hover:shadow-[#a488f4]/40 transition-all duration-300 hover:-translate-y-1"
-              >
-                Join our team
-              </button>
+
             </div>
           </div>
 
@@ -694,7 +786,7 @@ export default function Home() {
                 Send Message
               </button>
               {contactFormSubmitted && (
-                <p className="text-[#facc15] font-semibold">Thank you! Your message has been sent successfully.</p>
+                <p className="text-[#facc15] font-semibold">Thank you! Your message has been sent successfully. Malak will get back to you as soon as possible ..... ♡</p>
               )}
             </form>
           </div>
@@ -719,12 +811,12 @@ export default function Home() {
       {/* Join Team Modal */}
       {showJoinModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="modal-content bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
-            <div className="sticky top-0 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] p-8 flex items-center justify-between">
-              <h2 className="text-3xl font-black text-white">Welcome to Dear Future Luminary!</h2>
+          <div className="modal-content bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
+            <div className="sticky top-0 bg-white border-b border-gray-200 p-8 flex items-center justify-between">
+              <h2 className="text-3xl font-black text-[#1e3a8a]">Join Our Community</h2>
               <button 
                 onClick={() => setShowJoinModal(false)}
-                className="text-white hover:bg-white/20 rounded-full p-2 transition-colors"
+                className="text-gray-400 hover:text-gray-600 rounded-full p-2 transition-colors"
               >
                 <X size={28} />
               </button>
@@ -741,25 +833,25 @@ export default function Home() {
                 <h3 className="text-2xl font-bold text-[#1e3a8a]">Here is what we look for:</h3>
                 <ul className="space-y-3 text-gray-700">
                   <li className="flex items-start gap-3">
-                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">✓</span>
+                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">•</span>
                     <span className="text-lg">A positive attitude toward learning.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">✓</span>
+                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">•</span>
                     <span className="text-lg">Clear communication and reliability.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">✓</span>
+                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">•</span>
                     <span className="text-lg">Respect for others' time and ideas.</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">✓</span>
+                    <span className="text-[#a488f4] font-bold text-xl mt-0.5">•</span>
                     <span className="text-lg">A genuine interest in the mission.</span>
                   </li>
                 </ul>
               </div>
 
-              <div className="bg-gradient-to-br from-[#a488f4]/10 to-[#facc15]/10 border border-[#a488f4]/20 rounded-2xl p-8">
+              <div className="bg-gradient-to-br from-[#a488f4]/5 to-[#facc15]/5 border border-[#a488f4]/20 rounded-2xl p-8">
                 <p className="text-lg text-gray-700 leading-relaxed mb-6">
                   If this feels like you, apply below. Let's build something meaningful together.
                 </p>
@@ -767,7 +859,7 @@ export default function Home() {
                   href="https://forms.gle/1wEJ8q6ks4hsjFsP8"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] text-white rounded-full font-bold hover:shadow-lg hover:shadow-[#a488f4]/40 transition-all duration-300 hover:-translate-y-1 text-lg"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-[#a488f4] text-white rounded-full font-bold hover:bg-[#8a6ef1] hover:shadow-lg hover:shadow-[#a488f4]/40 transition-all duration-300 hover:-translate-y-1 text-lg"
                 >
                   Fill out the Application Form
                   <ArrowRight size={20} />
@@ -781,28 +873,28 @@ export default function Home() {
       {/* Coming Soon Modal */}
       {showComingSoonModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="modal-content bg-white rounded-3xl max-w-md w-full shadow-2xl">
-            <div className="bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] p-8 flex items-center justify-between">
-              <h2 className="text-2xl font-black text-white">Oopsyy!!</h2>
+          <div className="modal-content bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden">
+            <div className="bg-white border-b border-gray-200 p-8 flex items-center justify-between">
+              <h2 className="text-2xl font-black text-[#1e3a8a]">Coming Soon</h2>
               <button 
                 onClick={() => setShowComingSoonModal(false)}
-                className="text-white hover:bg-white/20 rounded-full p-2 transition-colors"
+                className="text-gray-400 hover:text-gray-600 rounded-full p-2 transition-colors"
               >
                 <X size={28} />
               </button>
             </div>
 
             <div className="p-8 space-y-6 text-center">
-              <AlertCircle size={48} className="mx-auto text-[#facc15]" />
+              <AlertCircle size={48} className="mx-auto text-[#a488f4]" />
               <div className="space-y-3">
-                <p className="text-lg font-bold text-[#1e3a8a]">This feature is not available right now...</p>
-                <p className="text-gray-600">BUT don't worry, we're coming ASAP!</p>
+                <p className="text-lg font-bold text-[#1e3a8a]">This feature is coming soon</p>
+                <p className="text-gray-600">We're working hard to bring you more features. Stay tuned!</p>
               </div>
               <button 
                 onClick={() => setShowComingSoonModal(false)}
-                className="w-full px-6 py-3 bg-gradient-to-r from-[#a488f4] to-[#8a6ef1] text-white rounded-full font-bold hover:shadow-lg transition-all duration-300"
+                className="w-full px-6 py-3 bg-[#a488f4] text-white rounded-full font-bold hover:bg-[#8a6ef1] hover:shadow-lg transition-all duration-300"
               >
-                Got it!
+                Got it
               </button>
             </div>
           </div>
