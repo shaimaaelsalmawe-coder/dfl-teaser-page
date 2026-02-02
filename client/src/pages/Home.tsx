@@ -155,12 +155,20 @@ export default function Home() {
         * {
           cursor: none;
         }
-        @keyframes pulse-cursor {
+        @keyframes pulse-cursor-purple {
           0%, 100% {
-            box-shadow: 0 0 0 0 rgba(164, 136, 244, 0.7);
+            box-shadow: 0 0 0 0 rgba(164, 136, 244, 0.7), 0 0 20px 0 rgba(164, 136, 244, 0.5);
           }
           50% {
-            box-shadow: 0 0 0 8px rgba(164, 136, 244, 0.3);
+            box-shadow: 0 0 0 12px rgba(164, 136, 244, 0.2), 0 0 30px 5px rgba(164, 136, 244, 0.3);
+          }
+        }
+        @keyframes pulse-cursor-yellow {
+          0%, 100% {
+            box-shadow: 0 0 0 0 rgba(250, 204, 21, 0.7), 0 0 20px 0 rgba(250, 204, 21, 0.5);
+          }
+          50% {
+            box-shadow: 0 0 0 12px rgba(250, 204, 21, 0.2), 0 0 30px 5px rgba(250, 204, 21, 0.3);
           }
         }
         .custom-cursor {
@@ -170,9 +178,14 @@ export default function Home() {
           border-radius: 50%;
           pointer-events: none;
           z-index: 9999;
-          animation: pulse-cursor 1.5s infinite;
           transform: translate(-50%, -50%);
           transition: background-color 0.2s ease;
+        }
+        .custom-cursor.purple {
+          animation: pulse-cursor-purple 1.5s infinite;
+        }
+        .custom-cursor.yellow {
+          animation: pulse-cursor-yellow 1.5s infinite;
         }
         
         @keyframes scroll-seamless {
@@ -304,7 +317,7 @@ export default function Home() {
 
       {/* Custom Cursor */}
       <div
-        className="custom-cursor"
+        className={`custom-cursor ${cursorColor === '#facc15' ? 'yellow' : 'purple'}`}
         style={{ left: `${cursorPos.x}px`, top: `${cursorPos.y}px`, background: cursorColor }}
       />
 
@@ -538,28 +551,76 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Professional Grid Layout - Asana Style */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {programs.map((program, index) => (
-              <a
-                key={index}
-                href={program.link || '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex items-center justify-center p-8 rounded-2xl border border-gray-200 bg-white hover:border-[#a488f4] hover:shadow-2xl hover:bg-gradient-to-br hover:from-[#a488f4]/10 to-white transition-all duration-300 cursor-pointer"
-                title={program.name}
-              >
-                <img
-                  src={`/images/${program.logo}`}
-                  alt={program.name}
-                  className="h-12 object-contain group-hover:scale-125 transition-transform duration-300"
-                />
-              </a>
-            ))}
+          {/* Dual Carousel - Asana Style */}
+          <style>{`
+            @keyframes scroll-left {
+              0% { transform: translateX(0); }
+              100% { transform: translateX(-100%); }
+            }
+            @keyframes scroll-right {
+              0% { transform: translateX(-100%); }
+              100% { transform: translateX(0); }
+            }
+            .carousel-left {
+              animation: scroll-left 30s linear infinite;
+            }
+            .carousel-right {
+              animation: scroll-right 30s linear infinite;
+            }
+            .carousel-container:hover .carousel-left,
+            .carousel-container:hover .carousel-right {
+              animation-play-state: paused;
+            }
+          `}</style>
+          
+          <div className="space-y-8">
+            {/* First Carousel - Left to Right */}
+            <div className="carousel-container overflow-hidden">
+              <div className="carousel-left flex gap-6">
+                {[...programs, ...programs].map((program, index) => (
+                  <a
+                    key={`carousel1-${index}`}
+                    href={program.link || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex-shrink-0 w-32 h-32 flex items-center justify-center p-6 rounded-2xl border border-gray-200 bg-white hover:border-[#a488f4] hover:shadow-2xl hover:bg-gradient-to-br hover:from-[#a488f4]/10 to-white transition-all duration-300"
+                    title={program.name}
+                  >
+                    <img
+                      src={`/images/${program.logo}`}
+                      alt={program.name}
+                      className="h-10 object-contain group-hover:scale-125 transition-transform duration-300"
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
+            
+            {/* Second Carousel - Right to Left */}
+            <div className="carousel-container overflow-hidden">
+              <div className="carousel-right flex gap-6">
+                {[...programs, ...programs].map((program, index) => (
+                  <a
+                    key={`carousel2-${index}`}
+                    href={program.link || '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex-shrink-0 w-32 h-32 flex items-center justify-center p-6 rounded-2xl border border-gray-200 bg-white hover:border-[#a488f4] hover:shadow-2xl hover:bg-gradient-to-br hover:from-[#a488f4]/10 to-white transition-all duration-300"
+                    title={program.name}
+                  >
+                    <img
+                      src={`/images/${program.logo}`}
+                      alt={program.name}
+                      className="h-10 object-contain group-hover:scale-125 transition-transform duration-300"
+                    />
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
 
           <p className="text-center text-gray-500 text-sm mt-12">
-            Click any logo to explore the program. Each represents real acceptance journeys from our community.
+            Hover to pause. Click any logo to explore the program.
           </p>
         </div>
       </section>
