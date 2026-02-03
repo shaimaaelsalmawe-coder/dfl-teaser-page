@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChevronDown, Menu, X, Instagram, Mail, Youtube, Facebook, ArrowRight, AlertCircle, Send, Radar, Map, Sparkles, Leaf, Handshake, Target, Zap, Lightbulb } from 'lucide-react';
+import { ChevronDown, Menu, X, Instagram, Mail, Youtube, Facebook, ArrowRight, AlertCircle, Send, Radar, Map, Sparkles, Leaf, Handshake, Target, Zap, Lightbulb, Users, Gift, Compass, BookOpen, UserCheck, Heart } from 'lucide-react';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -259,33 +259,17 @@ export default function Home() {
 
         /* Mesh Gradient Background */
         .mesh-gradient {
-          background: linear-gradient(135deg, #f8f6ff 0%, #f0e6ff 25%, #fff5e6 50%, #f8f6ff 75%, #f0e6ff 100%);
-          position: relative;
-          overflow: hidden;
+          background-color: #a488f4;
+          background-image: 
+            radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+            radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+            radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
         }
 
-        .mesh-gradient::before {
-          content: '';
-          position: absolute;
-          top: -50%;
-          right: -50%;
-          width: 200%;
-          height: 200%;
-          background: radial-gradient(circle at 20% 50%, rgba(164, 136, 244, 0.1) 0%, transparent 50%),
-                      radial-gradient(circle at 80% 80%, rgba(250, 204, 21, 0.05) 0%, transparent 50%);
-          animation: gradientShift 15s ease infinite;
-        }
-
-        @keyframes gradientShift {
-          0%, 100% { transform: translate(0, 0); }
-          50% { transform: translate(50px, 50px); }
-        }
-
-        /* Feature Card Hover Effect */
         .feature-card {
-          transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
           position: relative;
           overflow: hidden;
+          transition: all 0.3s ease;
         }
 
         .feature-card::before {
@@ -295,8 +279,13 @@ export default function Home() {
           left: -100%;
           width: 100%;
           height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-          transition: left 0.5s ease;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent
+          );
+          transition: 0.5s;
         }
 
         .feature-card:hover::before {
@@ -346,8 +335,11 @@ export default function Home() {
 
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-gray-600 hover:text-[#a488f4] transition-colors font-medium text-sm">
-                Features
+              <a href="#who-we-are" className="text-gray-600 hover:text-[#a488f4] transition-colors font-medium text-sm">
+                Who We Are
+              </a>
+              <a href="#what-we-offer" className="text-gray-600 hover:text-[#a488f4] transition-colors font-medium text-sm">
+                What We Offer
               </a>
               <a href="#about" className="text-gray-600 hover:text-[#a488f4] transition-colors font-medium text-sm">
                 About
@@ -372,8 +364,11 @@ export default function Home() {
           {/* Mobile Menu */}
           {isMobileMenuOpen && (
             <div className="md:hidden pb-4 border-t border-gray-100">
-              <a href="#features" className="block py-2 text-gray-600 hover:text-[#a488f4] text-sm">
-                Features
+              <a href="#who-we-are" className="block py-2 text-gray-600 hover:text-[#a488f4] text-sm">
+                Who We Are
+              </a>
+              <a href="#what-we-offer" className="block py-2 text-gray-600 hover:text-[#a488f4] text-sm">
+                What We Offer
               </a>
               <a href="#about" className="block py-2 text-gray-600 hover:text-[#a488f4] text-sm">
                 About
@@ -443,97 +438,110 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What Makes US Different Section */}
-      <section id="features" className="py-32 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
+      {/* Who Are We Section */}
+      <section id="who-we-are" className="py-32 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="mb-32">
-            <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
-              What Makes<br />
-              <span className="text-[#a488f4]">US Different</span>
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
+                Who Are<br />
+                <span className="text-[#a488f4]">We</span>
+              </h2>
+              <div className="space-y-6">
+                <p className="text-2xl font-bold text-[#1e3a8a] leading-tight">
+                  We're Dear Future Luminary—a youth-led initiative built by students, for students.
+                </p>
+                <p className="text-xl text-gray-600 leading-relaxed">
+                  Our mission is to empower Gen Z students, especially across MENA, with access to fully funded opportunities and self-growth resources.
+                </p>
+                <p className="text-xl text-gray-600 leading-relaxed">
+                  We provide the tools, guidance, and inspiration every young person needs to shine and leave their mark.
+                </p>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="absolute -inset-4 bg-gradient-to-tr from-[#a488f4]/20 to-[#facc15]/20 rounded-3xl blur-2xl"></div>
+              <div className="relative bg-white border border-gray-100 rounded-3xl p-8 shadow-2xl overflow-hidden">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-12 h-12 rounded-full bg-[#a488f4]/10 flex items-center justify-center">
+                    <Users className="text-[#a488f4]" size={24} />
+                  </div>
+                  <h3 className="text-2xl font-black text-[#1e3a8a]">Our Community</h3>
+                </div>
+                <div className="space-y-4">
+                  {[
+                    { label: 'Youth-Led', desc: 'Built by those who understand the journey.' },
+                    { label: 'Student-Focused', desc: 'Every resource is designed for your success.' },
+                    { label: 'MENA Impact', desc: 'Special focus on regional opportunities.' }
+                  ].map((item, i) => (
+                    <div key={i} className="flex gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors">
+                      <div className="text-[#facc15] font-bold text-xl">0{i+1}</div>
+                      <div>
+                        <div className="font-bold text-[#1e3a8a]">{item.label}</div>
+                        <div className="text-gray-600">{item.desc}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What We Offer Section */}
+      <section id="what-we-offer" className="py-32 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-6">
+              What We <span className="text-[#a488f4]">Offer</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
-              We don't just list opportunities. We teach you how to become competitive for them.
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Comprehensive support designed to take you from where you are to where you want to be.
             </p>
           </div>
 
-          {/* Storytelling Layout with Animations */}
-          <div className="space-y-16">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              {/* Left - Title & Description */}
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] leading-tight mb-4">
-                    What Makes<br />
-                    <span className="text-[#a488f4]">US Different</span>
-                  </h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                title: 'Personal Growth',
+                desc: "For every student who's felt lost, stuck, or unsure — we help you rediscover yourself and grow with purpose.",
+                icon: <Sparkles size={32} />,
+                color: 'bg-[#a488f4]'
+              },
+              {
+                title: 'Opportunities',
+                desc: "Because you deserve access to what's out there — scholarships, programs, and spaces that match your dreams.",
+                icon: <Gift size={32} />,
+                color: 'bg-[#facc15]'
+              },
+              {
+                title: 'Guides & Roadmaps',
+                desc: "We don't just tell you what to do, we walk you through how to start — step by step, like a friend who's been there.",
+                icon: <Compass size={32} />,
+                color: 'bg-[#a488f4]'
+              },
+              {
+                title: 'Mentorship',
+                desc: "Real guidance, honest feedback, and a community that reminds you: you're capable of more than you think.",
+                icon: <UserCheck size={32} />,
+                color: 'bg-[#facc15]'
+              },
+              {
+                title: 'Community',
+                desc: "A safe, inspiring corner of the internet where you can belong, learn, and believe in your light again.",
+                icon: <Users size={32} />,
+                color: 'bg-[#a488f4]'
+              }
+            ].map((offer, i) => (
+              <div key={i} className={`group p-8 rounded-3xl bg-white border border-gray-100 hover:border-[#a488f4]/50 hover:shadow-2xl transition-all duration-300 ${i === 3 ? 'md:col-start-1 md:col-end-2' : ''}`}>
+                <div className={`w-16 h-16 rounded-2xl ${offer.color} flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  {offer.icon}
                 </div>
-                <p className="text-xl text-gray-600 leading-relaxed">
-                  We don't just list opportunities. We teach you how to become competitive for them.
-                </p>
+                <h3 className="text-2xl font-black text-[#1e3a8a] mb-4">{offer.title}</h3>
+                <p className="text-gray-600 leading-relaxed">{offer.desc}</p>
               </div>
-              
-              {/* Right - Decorative Element */}
-              <div className="relative h-64 hidden md:block">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#a488f4]/10 to-[#facc15]/10 rounded-3xl"></div>
-                <div className="absolute top-8 right-8 w-32 h-32 bg-[#a488f4] rounded-3xl opacity-20 blur-2xl"></div>
-                <div className="absolute bottom-8 left-8 w-28 h-28 bg-[#facc15] rounded-full opacity-20 blur-2xl"></div>
-              </div>
-            </div>
-
-            {/* Feature Cards - Storytelling Style */}
-            <div className="space-y-6">
-              {/* Feature 1 */}
-              <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#a488f4]/10 to-transparent p-8 md:p-12 border border-[#a488f4]/20 hover:border-[#a488f4]/50 hover:shadow-2xl transition-all duration-300">
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-[#a488f4] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Zap size={32} className="text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl md:text-3xl font-black text-[#1e3a8a] mb-3">
-                      Built on <span className="text-[#a488f4]">Real Experience</span>
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed text-lg">
-                      Everything is shaped by real journeys, not theory. We break down complex processes and guide you through paths our community has already walked.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Feature 2 */}
-              <div className="group relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#facc15]/10 to-transparent p-8 md:p-12 border border-[#facc15]/20 hover:border-[#facc15]/50 hover:shadow-2xl transition-all duration-300">
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-[#facc15] flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Lightbulb size={32} className="text-[#1e3a8a]" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-2xl md:text-3xl font-black text-[#1e3a8a] mb-3">
-                      <span className="text-[#facc15]">Curated</span>, Not Random
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed text-lg">
-                      Every opportunity and resource is selected with intention. No scattered links. No overwhelming lists. Just clarity, confidence, and strategy.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Core Features Grid - Premium Layout */}
-          <div className="mt-24">
-            <h3 className="text-4xl font-bold text-[#1e3a8a] mb-12">Core Features</h3>
-            <div className="grid md:grid-cols-2 gap-8">
-              {coreFeatures.map((feature, index) => (
-                <div key={index} className="group relative overflow-hidden rounded-3xl border border-gray-200 bg-white p-8 md:p-10 hover:shadow-xl transition-all duration-300">
-                  <div className="relative z-10">
-                    <div className="mb-6 flex items-center justify-center w-14 h-14 rounded-2xl bg-[#a488f4]/10">
-                      {feature.icon}
-                    </div>
-                    <h4 className="font-bold text-[#1e3a8a] mb-4 text-xl">{feature.title}</h4>
-                    <p className="text-gray-600 leading-relaxed text-base">{feature.description}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -696,56 +704,61 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA Gradient Box Section */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-white to-[#f8f6ff]">
-        <div className="max-w-6xl mx-auto">
-          <div className="relative overflow-hidden rounded-3xl p-12 md:p-20 text-center space-y-8 bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a]">
-            <style>{`
-              @keyframes gradient-shift {
-                0%, 100% { background-position: 0% 50%; }
-                50% { background-position: 100% 50%; }
-              }
-              .gradient-mesh {
-                background: linear-gradient(135deg, #1e3a8a 0%, #2d4a9f 25%, #a488f4 50%, #2d4a9f 75%, #1e3a8a 100%);
-                background-size: 400% 400%;
-                animation: gradient-shift 15s ease infinite;
-              }
-            `}</style>
-            {/* Gradient Mesh Background */}
-            <div className="absolute inset-0 gradient-mesh opacity-100 pointer-events-none"></div>
-            
-            {/* Decorative Floating Elements */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#a488f4]/30 to-transparent rounded-full -mr-48 -mt-48 pointer-events-none blur-2xl"></div>
-            <div className="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-[#facc15]/20 to-transparent rounded-full -ml-40 -mb-40 pointer-events-none blur-2xl"></div>
-            <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-gradient-to-br from-[#a488f4]/15 to-[#facc15]/15 rounded-full -translate-x-1/2 -translate-y-1/2 pointer-events-none blur-3xl"></div>
-            
-            <div className="relative z-10 space-y-8">
-              <p className="text-white text-lg leading-relaxed max-w-3xl mx-auto">
-                Dear Future Luminary started as a <span className="font-bold text-[#facc15]">simple idea</span>: no student should feel <span className="font-bold text-[#facc15]">lost or alone</span> while trying to grow.
+      {/* Sponsor/Join Section - Improved to match Mission Section */}
+      <section className="py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a] relative overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-[#a488f4]/20 to-transparent rounded-full -ml-48 -mt-48"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tr from-[#facc15]/10 to-transparent rounded-full -mr-48 -mb-48"></div>
+
+        <div className="max-w-4xl mx-auto relative z-10">
+          <div className="space-y-12">
+            <div>
+              <h2 className="text-6xl md:text-7xl font-black text-white mb-12 leading-tight">
+                Join the Movement
+              </h2>
+              
+              <p className="text-4xl md:text-5xl font-black text-[#facc15] mb-16 leading-tight">
+                Dear Future Luminary started as a simple idea: no student should feel lost or alone while trying to grow.
               </p>
-              <p className="text-white text-lg leading-relaxed max-w-3xl mx-auto">
-                Whether you want to <span className="font-bold text-[#facc15]">join our team</span> or <span className="font-bold text-[#facc15]">support our mission</span>, this is your space to <span className="font-bold text-[#a488f4]">make an impact</span>, share what you learn, and help students thrive.
+
+              <p className="text-2xl text-white/90 leading-relaxed mb-12">
+                Whether you want to join our team or support our mission, this is your space to make an impact, share what you learn, and help students thrive. You don't need to have everything figured out. Together, we'll grow, learn, and build something meaningful.
               </p>
-              <p className="text-white text-lg leading-relaxed max-w-3xl mx-auto">
-                You don't need to have everything figured out. <span className="font-bold text-[#facc15]">Together</span>, we'll grow, learn, and <span className="font-bold text-[#a488f4]">build something meaningful</span>.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
-                <a
-                  href="https://forms.gle/pLqpSodiuMmB36Ei8"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-12 py-4 bg-[#facc15] text-[#1e3a8a] rounded-xl font-bold hover:bg-white hover:shadow-2xl hover:shadow-[#facc15]/50 transition-all duration-300 hover:-translate-y-1 text-lg"
-                >
-                  Join the Movement
-                </a>
-                <a
-                  href="https://forms.gle/1uFr976gMZqtJHcw7"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-12 py-4 bg-[#a488f4] text-white rounded-xl font-bold hover:bg-[#facc15] hover:text-[#1e3a8a] hover:shadow-2xl hover:shadow-[#a488f4]/50 transition-all duration-300 hover:-translate-y-1 text-lg"
-                >
-                  Sponsor Us
-                </a>
+            </div>
+
+            {/* Action Box */}
+            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-12 md:p-16">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  <div className="w-14 h-14 rounded-2xl bg-[#facc15] flex items-center justify-center text-[#1e3a8a]">
+                    <Heart size={32} />
+                  </div>
+                  <h3 className="text-3xl font-black text-white">Join the Movement</h3>
+                  <p className="text-white/80 text-lg">Be part of a community that acts, grows, and supports each other.</p>
+                  <a
+                    href="https://forms.gle/pLqpSodiuMmB36Ei8"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-10 py-4 bg-[#facc15] text-[#1e3a8a] rounded-xl font-bold hover:bg-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+                  >
+                    Get Started
+                  </a>
+                </div>
+                <div className="space-y-6">
+                  <div className="w-14 h-14 rounded-2xl bg-[#a488f4] flex items-center justify-center text-white">
+                    <Sparkles size={32} />
+                  </div>
+                  <h3 className="text-3xl font-black text-white">Sponsor Us</h3>
+                  <p className="text-white/80 text-lg">Help us reach more students and provide better resources for the next generation.</p>
+                  <a
+                    href="https://forms.gle/1uFr976gMZqtJHcw7"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block px-10 py-4 bg-[#a488f4] text-white rounded-xl font-bold hover:bg-[#facc15] hover:text-[#1e3a8a] hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+                  >
+                    Support Mission
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -920,10 +933,9 @@ export default function Home() {
                   href="https://forms.gle/1wEJ8q6ks4hsjFsP8"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-[#a488f4] text-white rounded-full font-bold hover:bg-[#8a6ef1] hover:shadow-lg hover:shadow-[#a488f4]/40 transition-all duration-300 hover:-translate-y-1 text-lg"
+                  className="inline-block w-full text-center px-8 py-4 bg-[#a488f4] text-white rounded-xl font-bold hover:bg-[#facc15] hover:text-[#1e3a8a] transition-all duration-300"
                 >
-                  Fill out the Application Form
-                  <ArrowRight size={20} />
+                  Apply to Join
                 </a>
               </div>
             </div>
@@ -934,30 +946,22 @@ export default function Home() {
       {/* Coming Soon Modal */}
       {showComingSoonModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="modal-content bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden">
-            <div className="bg-white border-b border-gray-200 p-8 flex items-center justify-between">
-              <h2 className="text-2xl font-black text-[#1e3a8a]">Coming Soon</h2>
-              <button 
-                onClick={() => setShowComingSoonModal(false)}
-                className="text-gray-400 hover:text-gray-600 rounded-full p-2 transition-colors"
-              >
-                <X size={28} />
-              </button>
+          <div className="modal-content bg-white rounded-3xl max-w-md w-full p-12 text-center space-y-8 shadow-2xl border border-gray-100">
+            <div className="w-24 h-24 bg-gradient-to-br from-[#a488f4]/10 to-[#facc15]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Sparkles size={48} className="text-[#a488f4]" />
             </div>
-
-            <div className="p-8 space-y-6 text-center">
-              <AlertCircle size={48} className="mx-auto text-[#a488f4]" />
-              <div className="space-y-3">
-                <p className="text-lg font-bold text-[#1e3a8a]">This feature is coming soon</p>
-                <p className="text-gray-600">We're working hard to bring you more features. Stay tuned!</p>
-              </div>
-              <button 
-                onClick={() => setShowComingSoonModal(false)}
-                className="w-full px-6 py-3 bg-[#a488f4] text-white rounded-full font-bold hover:bg-[#8a6ef1] hover:shadow-lg transition-all duration-300"
-              >
-                Got it
-              </button>
+            <div className="space-y-4">
+              <h2 className="text-4xl font-black text-[#1e3a8a]">Coming Soon</h2>
+              <p className="text-xl text-gray-600 leading-relaxed">
+                We're currently lighting the way for this section. It will be available very soon!
+              </p>
             </div>
+            <button 
+              onClick={() => setShowComingSoonModal(false)}
+              className="w-full py-4 bg-[#a488f4] text-white rounded-xl font-bold hover:bg-[#facc15] hover:text-[#1e3a8a] transition-all duration-300 text-lg shadow-lg shadow-[#a488f4]/20"
+            >
+              Got it, thanks!
+            </button>
           </div>
         </div>
       )}
