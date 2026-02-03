@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChevronDown, Menu, X, Instagram, Mail, Youtube, Facebook, ArrowRight, AlertCircle, Send, Radar, Map, Sparkles, Leaf, Handshake, Target, Zap, Lightbulb, Users, Gift, Compass, BookOpen, UserCheck, Heart } from 'lucide-react';
+import { ChevronDown, Menu, X, Instagram, Mail, Youtube, Facebook, ArrowRight, AlertCircle, Send, Radar, Map, Sparkles, Leaf, Handshake, Target, Zap, Lightbulb, Users, Gift, Compass, BookOpen, UserCheck, Heart, ExternalLink } from 'lucide-react';
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -59,39 +59,6 @@ export default function Home() {
     { name: 'Dear Future Luminary', logo: 'dear.future.luminary.logo.svg.svg' },
   ];
 
-  const coreFeatures = [
-    {
-      title: 'Opportunity Radar',
-      description: 'A carefully curated collection of real global opportunities—scholarships, summer programs, exchanges, and initiatives—organized clearly so students can understand what fits them and why.',
-      icon: <Radar size={36} className="text-[#a488f4]" />
-    },
-    {
-      title: 'Clear Roadmaps',
-      description: 'Structured, beginner-friendly paths that help students move from uncertainty to action. Each roadmap breaks big goals into clear, manageable steps, showing where to start and how to progress.',
-      icon: <Map size={36} className="text-[#a488f4]" />
-    },
-    {
-      title: 'Profile Building',
-      description: 'Practical guidance that helps students present themselves honestly and confidently. From CVs to personal statements, the focus is on clarity, authenticity, and understanding what opportunities are truly looking for.',
-      icon: <Sparkles size={36} className="text-[#a488f4]" />
-    },
-    {
-      title: 'Personal Growth',
-      description: 'A dedicated space for inner development—confidence, mindset, self-awareness, and leadership—because strong applications start with a strong sense of self.',
-      icon: <Leaf size={36} className="text-[#a488f4]" />
-    },
-    {
-      title: 'Shared Learning & Support',
-      description: 'Students don\'t grow alone. Dear Future Luminary brings together shared experiences, peer learning, and honest stories so no one feels isolated while figuring things out.',
-      icon: <Handshake size={36} className="text-[#a488f4]" />
-    },
-    {
-      title: 'Guided Clarity',
-      description: 'No shortcuts, no exaggerated promises. Just carefully organized knowledge, clear explanations, and intentional guidance that helps students think, choose, and move forward on their own.',
-      icon: <Target size={36} className="text-[#a488f4]" />
-    }
-  ];
-
   const faqItems = [
     {
       question: 'What is Dear Future Luminary?',
@@ -149,7 +116,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white overflow-x-hidden">
+    <div className="min-h-screen bg-white overflow-x-hidden font-sans">
       {/* Custom Styles */}
       <style>{`
         * {
@@ -257,50 +224,18 @@ export default function Home() {
           animation: slideDown 0.3s ease-out;
         }
 
-        /* Mesh Gradient Background */
-        .mesh-gradient {
-          background-color: #a488f4;
-          background-image: 
-            radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-            radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-            radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
-        }
-
-        .feature-card {
-          position: relative;
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-
-        .feature-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.2),
-            transparent
-          );
-          transition: 0.5s;
-        }
-
-        .feature-card:hover::before {
-          left: 100%;
-        }
-
-        .feature-card:hover {
-          transform: translateY(-8px);
-          box-shadow: 0 20px 40px rgba(164, 136, 244, 0.15);
-          border-color: #a488f4;
-        }
-
         /* Smooth Scroll */
         html {
           scroll-behavior: smooth;
+        }
+
+        /* Slack-like Card Hover */
+        .slack-card {
+          transition: all 0.2s ease;
+        }
+        .slack-card:hover {
+          background-color: #f8f8f8;
+          transform: translateY(-2px);
         }
       `}</style>
 
@@ -438,50 +373,59 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Who Are We Section */}
-      <section id="who-we-are" className="py-32 px-4 sm:px-6 lg:px-8 bg-white relative overflow-hidden">
+      {/* Who Are We Section - Slack Style */}
+      <section id="who-we-are" className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
-                Who Are<br />
-                <span className="text-[#a488f4]">We</span>
+            <div className="space-y-8">
+              <div className="inline-block px-4 py-1.5 bg-[#a488f4]/10 rounded-full text-[#a488f4] font-bold text-sm tracking-wide uppercase">
+                Our Identity
+              </div>
+              <h2 className="text-5xl md:text-6xl font-black text-[#1e3a8a] leading-tight">
+                Built by students, <br />
+                <span className="text-[#a488f4]">for students.</span>
               </h2>
-              <div className="space-y-6">
-                <p className="text-2xl font-bold text-[#1e3a8a] leading-tight">
-                  We're Dear Future Luminary—a youth-led initiative built by students, for students.
+              <div className="space-y-6 text-xl text-gray-600 leading-relaxed">
+                <p>
+                  We're <span className="font-bold text-[#1e3a8a]">Dear Future Luminary</span>—a youth-led initiative born from the real struggles of navigating growth.
                 </p>
-                <p className="text-xl text-gray-600 leading-relaxed">
+                <p>
                   Our mission is to empower Gen Z students, especially across MENA, with access to fully funded opportunities and self-growth resources.
                 </p>
-                <p className="text-xl text-gray-600 leading-relaxed">
+                <p>
                   We provide the tools, guidance, and inspiration every young person needs to shine and leave their mark.
                 </p>
               </div>
+              <div className="pt-4">
+                <a href="#about" className="inline-flex items-center gap-2 text-[#a488f4] font-bold text-lg hover:underline group">
+                  Learn about our vision
+                  <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
             </div>
-            <div className="relative">
-              <div className="absolute -inset-4 bg-gradient-to-tr from-[#a488f4]/20 to-[#facc15]/20 rounded-3xl blur-2xl"></div>
-              <div className="relative bg-white border border-gray-100 rounded-3xl p-8 shadow-2xl overflow-hidden">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="w-12 h-12 rounded-full bg-[#a488f4]/10 flex items-center justify-center">
-                    <Users className="text-[#a488f4]" size={24} />
-                  </div>
-                  <h3 className="text-2xl font-black text-[#1e3a8a]">Our Community</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4 mt-8">
+                <div className="bg-[#a488f4]/5 p-8 rounded-[2rem] border border-[#a488f4]/10 slack-card">
+                  <Users className="text-[#a488f4] mb-4" size={32} />
+                  <h3 className="font-bold text-[#1e3a8a] text-xl mb-2">Youth-Led</h3>
+                  <p className="text-gray-600 text-sm">Built by those who understand the journey.</p>
                 </div>
-                <div className="space-y-4">
-                  {[
-                    { label: 'Youth-Led', desc: 'Built by those who understand the journey.' },
-                    { label: 'Student-Focused', desc: 'Every resource is designed for your success.' },
-                    { label: 'MENA Impact', desc: 'Special focus on regional opportunities.' }
-                  ].map((item, i) => (
-                    <div key={i} className="flex gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors">
-                      <div className="text-[#facc15] font-bold text-xl">0{i+1}</div>
-                      <div>
-                        <div className="font-bold text-[#1e3a8a]">{item.label}</div>
-                        <div className="text-gray-600">{item.desc}</div>
-                      </div>
-                    </div>
-                  ))}
+                <div className="bg-[#facc15]/5 p-8 rounded-[2rem] border border-[#facc15]/10 slack-card">
+                  <Target className="text-[#facc15] mb-4" size={32} />
+                  <h3 className="font-bold text-[#1e3a8a] text-xl mb-2">Mission Driven</h3>
+                  <p className="text-gray-600 text-sm">Empowering Gen Z across the MENA region.</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="bg-[#facc15]/5 p-8 rounded-[2rem] border border-[#facc15]/10 slack-card">
+                  <Compass className="text-[#facc15] mb-4" size={32} />
+                  <h3 className="font-bold text-[#1e3a8a] text-xl mb-2">Guidance</h3>
+                  <p className="text-gray-600 text-sm">Practical tools for every step of your growth.</p>
+                </div>
+                <div className="bg-[#a488f4]/5 p-8 rounded-[2rem] border border-[#a488f4]/10 slack-card">
+                  <Sparkles className="text-[#a488f4] mb-4" size={32} />
+                  <h3 className="font-bold text-[#1e3a8a] text-xl mb-2">Impact</h3>
+                  <p className="text-gray-600 text-sm">Helping young people leave their unique mark.</p>
                 </div>
               </div>
             </div>
@@ -489,57 +433,62 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What We Offer Section */}
-      <section id="what-we-offer" className="py-32 px-4 sm:px-6 lg:px-8 bg-gray-50">
+      {/* What We Offer Section - Slack Style */}
+      <section id="what-we-offer" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#f9f9f9]">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-6">
+          <div className="text-center mb-20 space-y-4">
+            <h2 className="text-5xl md:text-6xl font-black text-[#1e3a8a]">
               What We <span className="text-[#a488f4]">Offer</span>
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Comprehensive support designed to take you from where you are to where you want to be.
+              Reimagine your future with tools and support designed for the modern student.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
                 title: 'Personal Growth',
                 desc: "For every student who's felt lost, stuck, or unsure — we help you rediscover yourself and grow with purpose.",
-                icon: <Sparkles size={32} />,
-                color: 'bg-[#a488f4]'
+                icon: <Sparkles size={28} />,
+                color: 'text-[#a488f4]',
+                bg: 'bg-[#a488f4]/10'
               },
               {
                 title: 'Opportunities',
                 desc: "Because you deserve access to what's out there — scholarships, programs, and spaces that match your dreams.",
-                icon: <Gift size={32} />,
-                color: 'bg-[#facc15]'
+                icon: <Gift size={28} />,
+                color: 'text-[#facc15]',
+                bg: 'bg-[#facc15]/10'
               },
               {
                 title: 'Guides & Roadmaps',
                 desc: "We don't just tell you what to do, we walk you through how to start — step by step, like a friend who's been there.",
-                icon: <Compass size={32} />,
-                color: 'bg-[#a488f4]'
+                icon: <Compass size={28} />,
+                color: 'text-[#a488f4]',
+                bg: 'bg-[#a488f4]/10'
               },
               {
                 title: 'Mentorship',
                 desc: "Real guidance, honest feedback, and a community that reminds you: you're capable of more than you think.",
-                icon: <UserCheck size={32} />,
-                color: 'bg-[#facc15]'
+                icon: <UserCheck size={28} />,
+                color: 'text-[#facc15]',
+                bg: 'bg-[#facc15]/10'
               },
               {
                 title: 'Community',
                 desc: "A safe, inspiring corner of the internet where you can belong, learn, and believe in your light again.",
-                icon: <Users size={32} />,
-                color: 'bg-[#a488f4]'
+                icon: <Users size={28} />,
+                color: 'text-[#a488f4]',
+                bg: 'bg-[#a488f4]/10'
               }
             ].map((offer, i) => (
-              <div key={i} className={`group p-8 rounded-3xl bg-white border border-gray-100 hover:border-[#a488f4]/50 hover:shadow-2xl transition-all duration-300 ${i === 3 ? 'md:col-start-1 md:col-end-2' : ''}`}>
-                <div className={`w-16 h-16 rounded-2xl ${offer.color} flex items-center justify-center text-white mb-6 group-hover:scale-110 transition-transform duration-300`}>
+              <div key={i} className="p-10 bg-white rounded-[2.5rem] border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col items-start text-left group">
+                <div className={`w-14 h-14 rounded-2xl ${offer.bg} ${offer.color} flex items-center justify-center mb-8 group-hover:scale-110 transition-transform`}>
                   {offer.icon}
                 </div>
                 <h3 className="text-2xl font-black text-[#1e3a8a] mb-4">{offer.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{offer.desc}</p>
+                <p className="text-gray-600 leading-relaxed flex-grow">{offer.desc}</p>
               </div>
             ))}
           </div>
@@ -547,155 +496,119 @@ export default function Home() {
       </section>
 
       {/* Programs Section */}
-      <section id="programs" className="py-32 px-4 sm:px-6 lg:px-8 bg-white">
+      <section id="programs" className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-24">
-            <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
-              Programs We're<br />
-              <span className="text-[#a488f4]">Proud Of</span>
+          <div className="text-center mb-16">
+            <h2 className="text-5xl md:text-6xl font-black text-[#1e3a8a] mb-6">
+              Programs We're <span className="text-[#a488f4]">Proud Of</span>
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Our founder and community members have been accepted into these programs. Explore their journeys and find your own path.
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Our community members have been accepted into world-class programs. Explore their journeys.
             </p>
           </div>
 
-          {/* Dual Carousel - Asana Style */}
           <style>{`
             @keyframes scroll-left {
               0% { transform: translateX(0); }
               100% { transform: translateX(-100%); }
             }
-            @keyframes scroll-right {
-              0% { transform: translateX(-100%); }
-              100% { transform: translateX(0); }
-            }
             .carousel-left {
-              animation: scroll-left 30s linear infinite;
+              animation: scroll-left 40s linear infinite;
             }
-            .carousel-right {
-              animation: scroll-right 30s linear infinite;
-            }
-            .carousel-container:hover .carousel-left,
-            .carousel-container:hover .carousel-right {
+            .carousel-container:hover .carousel-left {
               animation-play-state: paused;
             }
           `}</style>
           
-          <div className="space-y-8">
-            {/* First Carousel - Left to Right */}
-            <div className="carousel-container overflow-hidden">
-              <div className="carousel-left flex gap-6">
-                {[...programs, ...programs].map((program, index) => (
-                  <a
-                    key={`carousel1-${index}`}
-                    href={program.link || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex-shrink-0 w-32 h-32 flex items-center justify-center p-6 rounded-2xl border border-gray-200 bg-white hover:border-[#a488f4] hover:shadow-2xl hover:bg-gradient-to-br hover:from-[#a488f4]/10 to-white transition-all duration-300"
-                    title={program.name}
-                  >
-                    <img
-                      src={`/images/${program.logo}`}
-                      alt={program.name}
-                      className="h-10 object-contain group-hover:scale-125 transition-transform duration-300"
-                    />
-                  </a>
-                ))}
-              </div>
+          <div className="carousel-container overflow-hidden py-8">
+            <div className="carousel-left flex gap-8">
+              {[...programs, ...programs].map((program, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-40 h-40 bg-white border border-gray-100 rounded-3xl p-8 flex items-center justify-center hover:shadow-lg transition-all duration-300"
+                  title={program.name}
+                >
+                  <img
+                    src={`/images/${program.logo}`}
+                    alt={program.name}
+                    className="max-h-full max-w-full object-contain grayscale hover:grayscale-0 transition-all"
+                  />
+                </div>
+              ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Mission Section - Slack Style */}
+      <section id="about" className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-[#1e3a8a] rounded-[3rem] p-12 md:p-24 relative overflow-hidden">
+            {/* Background pattern */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32"></div>
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#facc15]/10 rounded-full -ml-24 -mb-24"></div>
             
-            {/* Second Carousel - Right to Left */}
-            <div className="carousel-container overflow-hidden">
-              <div className="carousel-right flex gap-6">
-                {[...programs, ...programs].map((program, index) => (
-                  <a
-                    key={`carousel2-${index}`}
-                    href={program.link || '#'}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex-shrink-0 w-32 h-32 flex items-center justify-center p-6 rounded-2xl border border-gray-200 bg-white hover:border-[#a488f4] hover:shadow-2xl hover:bg-gradient-to-br hover:from-[#a488f4]/10 to-white transition-all duration-300"
-                    title={program.name}
-                  >
-                    <img
-                      src={`/images/${program.logo}`}
-                      alt={program.name}
-                      className="h-10 object-contain group-hover:scale-125 transition-transform duration-300"
-                    />
-                  </a>
-                ))}
+            <div className="relative z-10 max-w-4xl">
+              <div className="space-y-12">
+                <div className="space-y-6">
+                  <h2 className="text-4xl md:text-6xl font-black text-white leading-tight">
+                    Our Mission
+                  </h2>
+                  <p className="text-5xl md:text-7xl font-black text-[#facc15] leading-tight">
+                    Talent is everywhere. <br />
+                    Access is not.
+                  </p>
+                </div>
+                
+                <p className="text-2xl text-white/80 leading-relaxed max-w-3xl">
+                  Dear Future Luminary exists to close that gap. We support high school and early college students—especially those from underrepresented communities—by providing clear guidance, trusted resources, and a supportive environment.
+                </p>
+
+                <div className="pt-8 border-t border-white/10">
+                  <div className="grid md:grid-cols-3 gap-12">
+                    <div>
+                      <div className="text-[#facc15] font-black text-2xl mb-2">Ambition</div>
+                      <p className="text-white/60">Turn curiosity into focused direction.</p>
+                    </div>
+                    <div>
+                      <div className="text-[#facc15] font-black text-2xl mb-2">Clarity</div>
+                      <p className="text-white/60">Convert confusion into actionable steps.</p>
+                    </div>
+                    <div>
+                      <div className="text-[#facc15] font-black text-2xl mb-2">Outcomes</div>
+                      <p className="text-white/60">Translate potential into real global success.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          <p className="text-center text-gray-500 text-sm mt-12">
-            Hover to pause. Click any logo to explore the program.
-          </p>
         </div>
       </section>
 
-      {/* Our Mission Section */}
-      <section id="about" className="py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a] relative overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-[#a488f4]/20 to-transparent rounded-full -mr-48 -mt-48"></div>
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-[#facc15]/10 to-transparent rounded-full -ml-48 -mb-48"></div>
-
-        <div className="max-w-4xl mx-auto relative z-10">
-          <div className="space-y-12">
-            <div>
-              <h2 className="text-6xl md:text-7xl font-black text-white mb-12 leading-tight">
-                Our Mission
-              </h2>
-              
-              <p className="text-5xl md:text-6xl font-black text-[#facc15] mb-16 leading-tight">
-                Talent is everywhere.<br />
-                Access is not.
-              </p>
-
-              <p className="text-2xl text-white/90 leading-relaxed mb-12">
-                Dear Future Luminary exists to close that gap. We support high school and early college students—especially those from underrepresented communities—by providing clear guidance, trusted resources, and a supportive environment that helps them access global opportunities.
-              </p>
-            </div>
-
-            {/* Mission Statement Box */}
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-12 md:p-16">
-              <p className="text-xl font-bold text-[#facc15] mb-8">Our mission is simple:</p>
-              <p className="text-3xl md:text-4xl font-black text-white leading-relaxed">
-                To turn <span className="text-[#facc15]">ambition into direction</span>, <span className="text-[#facc15]">confusion into clarity</span>, and <span className="text-[#facc15]">potential into real outcomes</span>—so being a luminary becomes possible for everyone, not just a privileged few.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section id="faq" className="py-32 px-4 sm:px-6 lg:px-8 bg-white">
+      {/* FAQ Section - Slack Style */}
+      <section id="faq" className="py-24 px-4 sm:px-6 lg:px-8 bg-[#f9f9f9]">
         <div className="max-w-4xl mx-auto">
-          <div className="mb-20">
-            <h2 className="text-6xl md:text-7xl font-black text-[#1e3a8a] mb-8 leading-tight">
-              Frequently Asked<br />
-              <span className="text-[#a488f4]">Questions</span>
-            </h2>
-            <p className="text-xl text-gray-600 max-w-2xl leading-relaxed">
-              Everything you need to know about Dear Future Luminary
-            </p>
+          <div className="text-center mb-16 space-y-4">
+            <h2 className="text-5xl font-black text-[#1e3a8a]">Frequently Asked Questions</h2>
+            <p className="text-xl text-gray-600">Everything you need to know about starting your journey.</p>
           </div>
 
           <div className="space-y-4">
             {faqItems.map((item, index) => (
-              <div key={index} className="border border-gray-200 rounded-2xl overflow-hidden hover:border-[#a488f4]/50 transition-colors duration-300">
+              <div key={index} className="bg-white rounded-3xl border border-gray-100 overflow-hidden transition-all">
                 <button
                   onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
-                  className="w-full px-8 py-6 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors duration-300"
+                  className="w-full px-8 py-8 flex items-center justify-between hover:bg-gray-50 transition-colors"
                 >
-                  <h3 className="text-lg font-bold text-[#1e3a8a] text-left">{item.question}</h3>
-                  <ChevronDown 
-                    size={24} 
-                    className={`text-[#a488f4] flex-shrink-0 transition-transform duration-300 ${expandedFAQ === index ? 'rotate-180' : ''}`}
-                  />
+                  <h3 className="text-xl font-bold text-[#1e3a8a] text-left">{item.question}</h3>
+                  <div className={`w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center transition-transform duration-300 ${expandedFAQ === index ? 'rotate-180 bg-[#a488f4]/10' : ''}`}>
+                    <ChevronDown size={20} className={expandedFAQ === index ? 'text-[#a488f4]' : 'text-gray-400'} />
+                  </div>
                 </button>
                 {expandedFAQ === index && (
-                  <div className="faq-answer px-8 py-6 bg-gradient-to-br from-[#f8f6ff] to-white border-t border-gray-200">
-                    <p className="text-gray-700 leading-relaxed text-lg">{item.answer}</p>
+                  <div className="px-8 pb-8 faq-answer">
+                    <p className="text-gray-600 text-lg leading-relaxed">{item.answer}</p>
                   </div>
                 )}
               </div>
@@ -704,62 +617,48 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Sponsor/Join Section - Improved to match Mission Section */}
-      <section className="py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#1e3a8a] via-[#2d4a9f] to-[#1e3a8a] relative overflow-hidden">
-        {/* Decorative Elements */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-[#a488f4]/20 to-transparent rounded-full -ml-48 -mt-48"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tr from-[#facc15]/10 to-transparent rounded-full -mr-48 -mb-48"></div>
-
-        <div className="max-w-4xl mx-auto relative z-10">
-          <div className="space-y-12">
-            <div>
-              <h2 className="text-6xl md:text-7xl font-black text-white mb-12 leading-tight">
-                Join the Movement
-              </h2>
-              
-              <p className="text-4xl md:text-5xl font-black text-[#facc15] mb-16 leading-tight">
-                Dear Future Luminary started as a simple idea: no student should feel lost or alone while trying to grow.
-              </p>
-
-              <p className="text-2xl text-white/90 leading-relaxed mb-12">
-                Whether you want to join our team or support our mission, this is your space to make an impact, share what you learn, and help students thrive. You don't need to have everything figured out. Together, we'll grow, learn, and build something meaningful.
-              </p>
+      {/* Join the Movement - Slack Style CTA */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="bg-gradient-to-br from-[#a488f4] to-[#8a6ef1] rounded-[3rem] p-12 md:p-24 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
+              <div className="absolute top-10 left-10 w-40 h-40 bg-white rounded-full blur-3xl"></div>
+              <div className="absolute bottom-10 right-10 w-60 h-60 bg-[#facc15] rounded-full blur-3xl"></div>
             </div>
-
-            {/* Action Box */}
-            <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-12 md:p-16">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <div className="w-14 h-14 rounded-2xl bg-[#facc15] flex items-center justify-center text-[#1e3a8a]">
-                    <Heart size={32} />
-                  </div>
-                  <h3 className="text-3xl font-black text-white">Join the Movement</h3>
-                  <p className="text-white/80 text-lg">Be part of a community that acts, grows, and supports each other.</p>
-                  <a
-                    href="https://forms.gle/pLqpSodiuMmB36Ei8"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-10 py-4 bg-[#facc15] text-[#1e3a8a] rounded-xl font-bold hover:bg-white hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
-                  >
-                    Get Started
-                  </a>
-                </div>
-                <div className="space-y-6">
-                  <div className="w-14 h-14 rounded-2xl bg-[#a488f4] flex items-center justify-center text-white">
-                    <Sparkles size={32} />
-                  </div>
-                  <h3 className="text-3xl font-black text-white">Sponsor Us</h3>
-                  <p className="text-white/80 text-lg">Help us reach more students and provide better resources for the next generation.</p>
-                  <a
-                    href="https://forms.gle/1uFr976gMZqtJHcw7"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-10 py-4 bg-[#a488f4] text-white rounded-xl font-bold hover:bg-[#facc15] hover:text-[#1e3a8a] hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
-                  >
-                    Support Mission
-                  </a>
-                </div>
+            
+            <div className="relative z-10 space-y-10 max-w-4xl mx-auto">
+              <h2 className="text-5xl md:text-7xl font-black text-white leading-tight">
+                Ready to find your <br />
+                <span className="text-[#facc15]">own light?</span>
+              </h2>
+              <p className="text-2xl text-white/90 leading-relaxed">
+                Join a community of students who act, grow, and support each other. Whether you want to join our team or support our mission, this is your space to thrive.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
+                <a
+                  href="https://forms.gle/pLqpSodiuMmB36Ei8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-10 py-5 bg-white text-[#1e3a8a] rounded-2xl font-black text-xl hover:bg-[#facc15] hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2 group"
+                >
+                  Join the Movement
+                  <ArrowRight size={24} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+                <a
+                  href="https://forms.gle/1uFr976gMZqtJHcw7"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-10 py-5 bg-transparent border-2 border-white/30 text-white rounded-2xl font-black text-xl hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
+                >
+                  Sponsor Us
+                  <Heart size={24} />
+                </a>
               </div>
+              
+              <p className="text-white/60 text-sm font-medium">
+                No commitment required. Start your journey today.
+              </p>
             </div>
           </div>
         </div>
